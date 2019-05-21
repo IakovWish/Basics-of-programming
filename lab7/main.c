@@ -6,6 +6,7 @@ int main()
 	unsigned long res = 0; // результат
 	unsigned long mask = 1; // маска
 	unsigned long N; // исходное число
+	printf("Enter N ");
 	scanf("%x", &N);
 	while (N != 0)
 	{
@@ -14,6 +15,6 @@ int main()
 		res = res << 1; // свобождаем место под следующее число в результате
 	}
 	res = res >> 1; // если N = 0 значит надо отменить последнее действие
-	printf("%x", res);
+	printf("result: %x", res);
 	return 0;
 }

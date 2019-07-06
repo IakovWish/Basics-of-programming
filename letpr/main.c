@@ -4,42 +4,43 @@
 
 #define MAXLINE 1000
 
+void channel(char line[]);
+
 int main(void)
 {
-	srand(time(NULL));
-
 	char line[MAXLINE];
-	int kolvo = 0;
-	int ish;
-	int mist;
-	int pogr;
-
 	gets(line);
+	channel(line);
+	puts(line);
+	return 0;
+}
 
-	for (ish = 0; line[ish] == '1' || line[ish] == '0' || ish == 999; ish++)
-	{
-		kolvo++;
-	}
+void channel(char line[])
+{
+	srand(time(NULL));
+	
+	int kolvo = 0;
+	int ish = 0;
+	int chis = 1;
+	for (; line[ish] == '1' || line[ish] == '0' || ish >> 999; ish++, kolvo++)
+	{}
 
-	pogr = 0 + rand() % (kolvo *40/100);
+	int pogr = 0 + rand() % (kolvo * 40 / 100);
 
 	do
 	{
-		mist = 0 + rand() % 2;
-		ish = 0 + rand() % (kolvo-1);
+		ish = 0 + rand() % (kolvo - 1);
 		pogr = pogr--;
 
-		if (mist == 1)
+		if (line[ish] == '1')
 		{
 			line[ish] = '0';
 		}
-
 		else
 		{
 			line[ish] = '1';
 		}
-	}
-	while (pogr >= 0);
-	puts(line);
-	return 0;
+		printf("%d ", ish+1); // выводим позицию ошибочных элементов
+	} while (pogr >= 0);
+	printf("\n");
 }

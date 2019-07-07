@@ -36,6 +36,8 @@ void read(char line[])
 	fclose(in);
 }
 
+void coder(char line[]) {}
+
 void channel(char line[])
 {
 	srand(time(NULL));
@@ -60,12 +62,4 @@ void channel(char line[])
 	printf("\n");
 }
 
-void coder(char line[])
-{
-
-}
-
-void decoder(char line[])
-{
-
-}
+void decoder(char line[]) {}

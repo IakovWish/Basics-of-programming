@@ -9,9 +9,10 @@ int MISTAKES[MAXLINE]; // массив с ошибками
 char RES[MAXLINE];
 int i = 0;
 int k = 0;
-char f;
-char s;
-char t;
+int q;
+int f;
+int s;
+int t;
 int pos = 0; // позиция элемента в массиве
 int mistake; // количество ошибок
 int kolvo = 0; // количество элементов в массиве
@@ -63,7 +64,7 @@ void channel(char line[]) // добавляем ошибки
 
 	for (; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
 
-	int max_mistake = kolvo * 40 / 100; // выщитываем максимальное допустимое количество ошибок
+	int max_mistake = kolvo * 60 / 100; // выщитываем максимальное допустимое количество ошибок
 	mistake = 0 + rand() % max_mistake; // выщитываем, сколько добавить ошибок
 
 	while (cnt != mistake) // добавляем все ошибки
@@ -90,69 +91,71 @@ void decoder(char line[]) // раскодировываем
 	{
 		if (line[pos++] == '0') // 1
 		{
-			f = '0';
+			f = 0;
 			if (line[pos++] == '0') // 2
 			{
-				s = '0';
+				s = 0;
 				if (line[pos++] == '0') // 3
 				{
-					t = '0'; // 
+					t = 0; // 
 					k++;
 				}
 				else //3
 				{
-					t = '1'; //
+					t = 1; //
 					k++;
 				}
 			}
 			else // 2
 			{
-				s = '1';
+				s = 1;
 				if (line[pos++] == '0') // 3
 				{
-					t = '0';
+					t = 0;
 					k++;
 				}
 				else //3
 				{
-					t = '1'; //
+					t = 1; //
 					k++;
 				}
 			}
 		}
 		else // 1
 		{
-			f = '1';
+			f = 1;
 			if (line[pos++] == '1') // 2
 			{
-				s = '1';
+				s = 1;
 				if (line[pos++] == '1') // 3
 				{
-					t = '1'; // 
+					t = 1; // 
 					k++;
 				}
 				else // 3
 				{
-					t = '1'; // 
+					t = 0; // 
 					k++;
 				}
 			}
 			else // 2
 			{
-				s = '0';
+				s = 0;
 				if (line[pos++] == '1') // 3
 				{
-					t = '1'; // 
+					t = 1; // 
 					k++;
 				}
 				else // 3
 				{
-					t = '0'; // 
+					t = 0; // 
 					k++;
 				}
 			}
 		}
-		if (f + s + t == 3 || f + s + t == 2)
+		q = f + s + t;
+		RES[i++] = ' ';
+		if (q == 3 || q == 2)
 		{
 			RES[i++] = '1';
 		}
@@ -160,6 +163,7 @@ void decoder(char line[]) // раскодировываем
 		{
 			RES[i++] = '0';
 		}
+		RES[i++] = ' ';
 	}
 }
 

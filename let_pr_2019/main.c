@@ -50,8 +50,10 @@ void coder(char line[]) {} // кодируем
 void channel(char line[]) // добавляем ошибки
 {
 	srand(time(NULL)); // рандом
+
 	int kolvo = 0; // количество элементов в массиве
 	int cnt = 0; // счетчик
+
 	for (; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
 
 	int max_mistake = kolvo * 40 / 100; // выщитываем максимальное допустимое количество ошибок
@@ -82,8 +84,8 @@ void writer(char line[]) // записываем результат
 
 void ERRORS(char line[]) // вставляем позицию ошибочных элементов
 {
-	for (pos = 0; pos != mistake; pos++)
+	for (pos = 0; pos != mistake; pos++) // перечисляем все ошибки
 	{
-		printf("%d ", MISTAKES[pos]);
+		printf("%d ", MISTAKES[pos]); // и вставляем их позиции
 	}
 }

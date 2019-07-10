@@ -5,8 +5,9 @@
 #define MAXLINE 1000 // размер массива
 
 char line[MAXLINE]; // задаем массив, в который перепишем данные из файла
+char RES[MAXLINE]; // массив с результатами
 int MISTAKES[MAXLINE]; // массив с ошибками
-char RES[MAXLINE];
+
 int pos = 0; // позиция элемента в массиве
 int mistake; // количество ошибок
 int kolvo = 0; // количество элементов в массиве
@@ -21,7 +22,7 @@ void ERRORS(char line[]); // выводим ошибки
 int main(void)
 {
 	read(line); // читаем данные из файла
-	coder(line); // кодируем их // миша
+	coder(line); // кодируем их
 	channel(line); // добавляем ошибки
 	decoder(line); // раскодировываем
 	writer(line); // записываем
@@ -112,13 +113,13 @@ void decoder(char line[]) // раскодировываем
 
 void writer(char line[]) // записываем результат
 {
-	for (pos = 0; pos != kolvo; pos++) // перечисляем все ошибки
+	for (pos = 0; pos != kolvo; pos++) // в консоль
 	{
-		printf("%c", RES[pos]); // и вставляем их позиции
+		printf("%c", RES[pos]);
 	}
 	printf("result\n"); // подсказка
 
-	FILE* in = fopen("result.txt", "a");
+	FILE* in = fopen("result.txt", "a"); // и в файл
 	if (NULL == in)
 	{
 		printf("ошибка\n");
@@ -127,7 +128,7 @@ void writer(char line[]) // записываем результат
 	else
 	{
 		fputs(RES, in);
-		fprintf(in, "result\n");
+		fprintf(in, "\n");
 		fclose(in);
 	}
 }

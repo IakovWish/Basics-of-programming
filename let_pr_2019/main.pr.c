@@ -7,12 +7,6 @@
 char line[MAXLINE]; // задаем массив, в который перепишем данные из файла
 int MISTAKES[MAXLINE]; // массив с ошибками
 char RES[MAXLINE];
-int i = 0;
-int k = 0;
-int q;
-int f;
-int s;
-int t;
 int pos = 0; // позиция элемента в массиве
 int mistake; // количество ошибок
 int kolvo = 0; // количество элементов в массиве
@@ -85,7 +79,12 @@ void channel(char line[]) // добавляем ошибки
 
 void decoder(char line[]) // раскодировываем
 {
-	k = 0;
+	int q;
+	int f;
+	int s;
+	int t;
+	int i = 0;
+	int k = 0;
 	pos = 0;
 	while (k != kolvo/3)
 	{

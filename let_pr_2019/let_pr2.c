@@ -2,8 +2,6 @@
 
 #include<stdio.h>
 
-#define YES 1
-#define NO 0
 #define MAXLINE 1000 // размер массива
 
 char line[MAXLINE]; // задаем массив, в который перепишем данные из файла
@@ -46,7 +44,13 @@ void read(char line[]) // читаем
 	}
 	fclose(fp);
 
-	puts(line); //вставляем исходные данные
+	for (pos = 0; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
+
+	for (pos = 0; pos != kolvo; pos++)
+	{
+		printf("%c", line[pos]);
+	}
+	printf(" original data\n");
 }
 
 void coder(char line[]) {} // кодируем
@@ -55,12 +59,9 @@ void channel(char line[]) // добавляем ошибки
 {
 	srand(time(NULL)); // рандом
 
-	
 	int cnt = 0; // счетчик
 
-	for (; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
-
-	int max_mistake = kolvo * 40 / 100; // выщитываем максимальное допустимое количество ошибок
+	int max_mistake = kolvo * 70 / 100; // выщитываем максимальное допустимое количество ошибок
 	mistake = 0 + rand() % max_mistake; // выщитываем, сколько добавить ошибок
 
 	while (cnt != mistake) // добавляем все ошибки
@@ -77,6 +78,12 @@ void channel(char line[]) // добавляем ошибки
 			line[pos] = '1'; //меняем его на единицу
 		}
 	}
+
+	for (pos = 0; pos != kolvo; pos++)
+	{
+		printf("%c", line[pos]);
+	}
+	printf(" data with mistakes\n");
 }
 
 void decoder(char line[]) // раскодировываем
@@ -105,8 +112,11 @@ void decoder(char line[]) // раскодировываем
 
 void writer(char line[]) // записываем результат
 {
-	puts(line); // вставляем результат
-	puts(RES);
+	for (pos = 0; pos != kolvo; pos++) // перечисляем все ошибки
+	{
+		printf("%c", RES[pos]); // и вставляем их позиции
+	}
+	printf("result\n");
 }
 
 void ERRORS(char line[]) // вставляем позицию ошибочных элементов
@@ -115,4 +125,5 @@ void ERRORS(char line[]) // вставляем позицию ошибочных
 	{
 		printf("%d ", MISTAKES[pos]); // и вставляем их позиции
 	}
+	printf("error position\n");
 }

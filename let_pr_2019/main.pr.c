@@ -24,7 +24,7 @@ int main(void)
 	coder(line); // кодируем их // миша
 	channel(line); // добавляем ошибки
 	decoder(line); // раскодировываем
-	writer(line); // записываем // миша
+	writer(line); // записываем
 	ERRORS(line); // отчет о добавленных ошибках
 	return 0;
 }

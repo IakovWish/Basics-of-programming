@@ -3,11 +3,13 @@
 #include<stdio.h>
 
 #define MAXLINE 1000 // размер массива
+
 char line[MAXLINE]; // задаем массив, в который перепишем данные из файла
 int MISTAKES[MAXLINE]; // массив с ошибками
+char RES[MAXLINE];
 int pos = 0; // позиция элемента в массиве
-
 int mistake; // количество ошибок
+int kolvo = 0; // количество элементов в массиве
 
 void read(char line[]); // читаем данные из файла
 void coder(char line[]); // кодируем их
@@ -19,7 +21,7 @@ void ERRORS(char line[]); // выводим ошибки
 int main(void)
 {
 	read(line); // читаем данные из файла
-	coder(line); // кодируем их
+	coder(line); // кодируем их // миша
 	channel(line); // добавляем ошибки
 	decoder(line); // раскодировываем
 	writer(line); // записываем
@@ -42,21 +44,24 @@ void read(char line[]) // читаем
 	}
 	fclose(fp);
 
-	puts(line); //вставляем исходные данные
+	for (pos = 0; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
+
+	for (pos = 0; pos != kolvo; pos++) // выводим оригинальный массив
+	{
+		printf("%c", line[pos]);
+	}
+	printf(" original data\n"); // подсказка
 }
 
 void coder(char line[]) {} // кодируем
 
 void channel(char line[]) // добавляем ошибки
 {
-	srand(time(NULL)); // рандом
+	srand(time(NULL)); // включаем рандом
 
-	int kolvo = 0; // количество элементов в массиве
 	int cnt = 0; // счетчик
 
-	for (; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
-
-	int max_mistake = kolvo * 40 / 100; // выщитываем максимальное допустимое количество ошибок
+	int max_mistake = kolvo * 70 / 100; // выщитываем максимальное допустимое количество ошибок
 	mistake = 0 + rand() % max_mistake; // выщитываем, сколько добавить ошибок
 
 	while (cnt != mistake) // добавляем все ошибки
@@ -73,13 +78,58 @@ void channel(char line[]) // добавляем ошибки
 			line[pos] = '1'; //меняем его на единицу
 		}
 	}
+
+	for (pos = 0; pos != kolvo; pos++) // выводим массив с ошибками
+	{
+		printf("%c", line[pos]);
+	}
+	printf(" data with mistakes\n"); // подсказка
 }
 
-void decoder(char line[]) {} // раскодировываем
+void decoder(char line[]) // раскодировываем
+{
+	pos = 0;
+	char pred = line[pos++]; // предыдущий элемент
+	char c = line[pos++]; // текущий элемент
+	int i = 0; // как pos
+	while (i != kolvo) // пока не пройдем каждый элемент
+	{
+		RES[i++] = ' '; // для красоты
+		if (pred == c) // если 2 символа равны, то...
+		{
+			RES[i++] = c; // записываем в результат
+			line[pos++]; // 3й символ нас не интересует
+		}
+		else // если не равны, тогда...
+		{
+			RES[i++] = line[pos++]; // от 3го зависит результат, поэтому его и пишем
+		}
+		RES[i++] = ' '; // для красоты
+		pred = line[pos++]; // переходим к следующим тройкам
+		c = line[pos++]; // тоже самое
+	}
+}
 
 void writer(char line[]) // записываем результат
 {
-	puts(line); // вставляем результат
+	for (pos = 0; pos != kolvo; pos++) // перечисляем все ошибки
+	{
+		printf("%c", RES[pos]); // и вставляем их позиции
+	}
+	printf("result\n"); // подсказка
+
+	FILE* in = fopen("result.txt", "a");
+	if (NULL == in)
+	{
+		printf("ошибка\n");
+		return 0;
+	}
+	else
+	{
+		fputs(RES, in);
+		fprintf(in, "result\n");
+		fclose(in);
+	}
 }
 
 void ERRORS(char line[]) // вставляем позицию ошибочных элементов
@@ -88,4 +138,5 @@ void ERRORS(char line[]) // вставляем позицию ошибочных
 	{
 		printf("%d ", MISTAKES[pos]); // и вставляем их позиции
 	}
+	printf("error position\n"); // подсказка
 }

@@ -35,17 +35,25 @@ void read(char line[]) // читаем
 	FILE* fp = fopen("file.txt", "r");
 	if (NULL == fp)
 	{
-		printf("ошибка\n");
-		return 0;
+		printf("ERROR\nproblem with file");
+		exit(1);
 	}
-	
-	while (!feof(fp))
+	else
 	{
-		fgets(line, 999, fp);
+		while (!feof(fp))
+		{
+			fgets(line, 999, fp);
+		}
+		fclose(fp);
 	}
-	fclose(fp);
 
 	for (pos = 0; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
+
+	if (kolvo == 0)
+	{
+		printf("ERROR\nPlease add original data to file\n");
+		exit(1);
+	}
 
 	for (pos = 0; pos != kolvo; pos++) // выводим оригинальный массив
 	{
@@ -54,14 +62,16 @@ void read(char line[]) // читаем
 	printf(" original data\n"); // подсказка
 }
 
-void coder(char line[]) {} // кодируем
+void coder(char line[]) // кодируем
+{
+
+}
 
 void channel(char line[]) // добавляем ошибки
 {
 	srand(time(NULL)); // включаем рандом
 
 	int cnt = 0; // счетчик
-
 	int max_mistake = kolvo * 70 / 100; // выщитываем максимальное допустимое количество ошибок
 	mistake = 0 + rand() % max_mistake; // выщитываем, сколько добавить ошибок
 
@@ -122,8 +132,8 @@ void writer(char line[]) // записываем результат
 	FILE* in = fopen("result.txt", "a"); // и в файл
 	if (NULL == in)
 	{
-		printf("ошибка\n");
-		return 0;
+		printf("ERROR\nproblem with file 'result'");
+		exit(1);
 	}
 	else
 	{

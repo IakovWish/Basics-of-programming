@@ -23,7 +23,7 @@ int main(void)
 	read(line); // читаем данные из файла
 	coder(line); // кодируем их // миша
 	channel(line); // добавляем ошибки
-	decoder(line); // раскодировываем // яша
+	decoder(line); // раскодировываем
 	writer(line); // записываем // миша
 	ERRORS(line); // отчет о добавленных ошибках
 	return 0;
@@ -58,7 +58,7 @@ void channel(char line[]) // добавляем ошибки
 
 	for (; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
 
-	int max_mistake = kolvo * 60 / 100; // выщитываем максимальное допустимое количество ошибок
+	int max_mistake = kolvo * 40 / 100; // выщитываем максимальное допустимое количество ошибок
 	mistake = 0 + rand() % max_mistake; // выщитываем, сколько добавить ошибок
 
 	while (cnt != mistake) // добавляем все ошибки
@@ -97,13 +97,12 @@ void decoder(char line[]) // раскодировываем
 				if (line[pos++] == '0') // 3
 				{
 					t = 0; // 
-					k++;
 				}
 				else //3
 				{
 					t = 1; //
-					k++;
 				}
+				k++;
 			}
 			else // 2
 			{
@@ -111,13 +110,12 @@ void decoder(char line[]) // раскодировываем
 				if (line[pos++] == '0') // 3
 				{
 					t = 0;
-					k++;
 				}
 				else //3
 				{
 					t = 1; //
-					k++;
 				}
+				k++;
 			}
 		}
 		else // 1
@@ -129,13 +127,12 @@ void decoder(char line[]) // раскодировываем
 				if (line[pos++] == '1') // 3
 				{
 					t = 1; // 
-					k++;
 				}
 				else // 3
 				{
 					t = 0; // 
-					k++;
 				}
+				k++;
 			}
 			else // 2
 			{
@@ -143,13 +140,12 @@ void decoder(char line[]) // раскодировываем
 				if (line[pos++] == '1') // 3
 				{
 					t = 1; // 
-					k++;
 				}
 				else // 3
 				{
 					t = 0; // 
-					k++;
 				}
+				k++;
 			}
 		}
 		q = f + s + t;

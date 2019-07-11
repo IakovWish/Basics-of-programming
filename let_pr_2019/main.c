@@ -1,153 +1,158 @@
 #pragma warning(disable : 4996) // чиним fopen
 
-#include<stdio.h>
+#include <stdio.h>
 
 #define MAXLINE 1000 // размер массива
 
-char line[MAXLINE]; // задаем массив, в который перепишем данные из файла
+char ORIG[MAXLINE]; // задаем массив, в который перепишем данные из файла
+char CODED[MAXLINE]; // массив с закодированными данными
 char RES[MAXLINE]; // массив с результатами
-int MISTAKES[MAXLINE]; // массив с ошибками
+int MISTAKES[MAXLINE]; // массив с позициями ошибок
 
-int pos = 0; // позиция элемента в массиве
+int pos; // позиция элемента в массиве
+int pos_; // позиция элемента массиве
 int mistake; // количество ошибок
-int kolvo = 0; // количество элементов в массиве
+int kolvo; // количество элементов в исходном массиве
 
-void read(char line[]); // читаем данные из файла
-void coder(char line[]); // кодируем их
-void channel(char line[]); // добавляем ошибки
-void decoder(char line[]); // раскодировываем
-void writer(char line[]); // выводим результаты
-void ERRORS(char line[]); // выводим ошибки
+void read(char ORIG[]); // читаем данные из файла
+void coder(char CODED[]); // кодируем их
+void channel(char CODED[]); // добавляем ошибки
+void decoder(char CODED[]); // раскодировываем
+void writer(char CODED[]); // выводим результаты
+void ERRORS(int MISTAKES[]); // выводим ошибки
 
-int main(void)
+int main(void) // главная функция
 {
-	read(line); // читаем данные из файла
-	coder(line); // кодируем их
-	channel(line); // добавляем ошибки
-	decoder(line); // раскодировываем
-	writer(line); // записываем
-	ERRORS(line); // отчет о добавленных ошибках
+	read(ORIG); // читаем данные из файла
+	coder(CODED); // кодируем их
+	channel(CODED); // добавляем ошибки
+	decoder(CODED); // раскодировываем
+	writer(CODED); // записываем
+	ERRORS(MISTAKES); // отчет о добавленных ошибках
 	return 0;
 }
 
-void read(char line[]) // читаем
+void read(char ORIG[]) // читаем
 {
 	FILE* fp = fopen("file.txt", "r");
-	if (NULL == fp)
+	if (NULL == fp)// если файл с данными отсутствует, то...
 	{
-		printf("ERROR\nproblem with file");
-		exit(1);
+		printf("error: file not found\n"); // выводим ошибку
+		exit(1); // выходим из программы
 	}
 	else
 	{
 		while (!feof(fp))
 		{
-			fgets(line, 999, fp);
+			fgets(ORIG, 999, fp);
 		}
-		fclose(fp);
+		fclose(fp); // закрываем файл
 	}
 
-	for (pos = 0; line[pos] == '1' || line[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем количество элементов
+	for (kolvo = 0, pos = 0; ORIG[pos] == '1' || ORIG[pos] == '0' || pos > 998; pos++, kolvo++) {} // считаем кол-во элементов в исходном массиве
 
-	if (kolvo == 0)
+	if (kolvo == 0) // если в файле пусто, то...
 	{
-		printf("ERROR\nPlease add original data to file\n");
-		exit(1);
+		printf("ERROR\nPlease add original data to file\n"); // выводим ошибку
+		exit(1); // выходим из программы
 	}
 
-	for (pos = 0; pos != kolvo; pos++) // выводим оригинальный массив
-	{
-		printf("%c", line[pos]);
-	}
-	printf(" original data\n"); // подсказка
+	printf(" |original data|\n"); // подсказка
+	puts (ORIG); // выводим оригинальный код
 }
 
-void coder(char line[]) // кодируем
+void coder(char CODED[]) // кодируем
 {
+	for (pos = 0, pos_ = 0; pos_ != kolvo; pos_++) // преобразуем данные из исходного массива в новые данные и заполняем ими новый массив
+	{
+		if (ORIG[pos_] == '1' || ORIG[pos_] == '0')
+		{
+			CODED[pos++] = ORIG[pos_];
+			CODED[pos++] = ORIG[pos_];
+			CODED[pos++] = ORIG[pos_];
+		}
+	}
 
+	printf(" |coded data|\n"); // подсказка
+	puts(CODED); // выводим закодированный код
 }
 
-void channel(char line[]) // добавляем ошибки
+void channel(char CODED[]) // добавляем ошибки
 {
 	srand(time(NULL)); // включаем рандом
 
-	int cnt = 0; // счетчик
-	int max_mistake = kolvo * 70 / 100; // выщитываем максимальное допустимое количество ошибок
+	pos_ = 0;
+
+	int max_mistake = kolvo * 3 * 40 / 100; // выщитываем максимальное допустимое количество ошибок
 	mistake = 0 + rand() % max_mistake; // выщитываем, сколько добавить ошибок
 
-	while (cnt != mistake) // добавляем все ошибки
+	while (pos_ != mistake) // добавляем все ошибки
 	{
-		pos = 0 + rand() % (kolvo - 1); // берем рандомный элемент
-		MISTAKES[cnt++] = pos + 1; // запоминаем его
+		pos = 0 + rand() % (kolvo * 3 - 1); // берем рандомный элемент
+		MISTAKES[pos_++] = pos + 1; // запоминаем его позицию
 
-		if (line[pos] == '1') // если это единица, то...
+		if (CODED[pos] == '1') // если это единица, то...
 		{
-			line[pos] = '0'; // меняем его на нуль
+			CODED[pos] = '0'; // меняем его на нуль
 		}
-		else // если это нуль...
+		else // если ноль, то...
 		{
-			line[pos] = '1'; //меняем его на единицу
+			CODED[pos] = '1'; // меняем его на единицу
 		}
 	}
 
-	for (pos = 0; pos != kolvo; pos++) // выводим массив с ошибками
-	{
-		printf("%c", line[pos]);
-	}
-	printf(" data with mistakes\n"); // подсказка
+	printf(" |data with mistakes|\n"); // подсказка
+	puts(CODED); // выводим масссив с ошибками
 }
 
-void decoder(char line[]) // раскодировываем
+void decoder(char CODED[]) // раскодировываем
 {
 	pos = 0;
-	char pred = line[pos++]; // предыдущий элемент
-	char c = line[pos++]; // текущий элемент
-	int i = 0; // как pos
-	while (i != kolvo) // пока не пройдем каждый элемент
+	pos_ = 0;
+	char pred = CODED[pos++]; // предыдущий элемент
+	char c = CODED[pos++]; // текущий элемент
+	
+	while (pos_ != kolvo * 3) // пока не пройдем каждый элемент
 	{
-		RES[i++] = ' '; // для красоты
 		if (pred == c) // если 2 символа равны, то...
 		{
-			RES[i++] = c; // записываем в результат
-			line[pos++]; // 3й символ нас не интересует
+			RES[pos_++] = c; // записываем в результат
+			CODED[pos++]; // 3й символ нас не интересует
 		}
 		else // если не равны, тогда...
 		{
-			RES[i++] = line[pos++]; // от 3го зависит результат, поэтому его и пишем
+			RES[pos_++] = CODED[pos++]; // от 3го зависит результат, поэтому его и пишем
 		}
-		RES[i++] = ' '; // для красоты
-		pred = line[pos++]; // переходим к следующим тройкам
-		c = line[pos++]; // тоже самое
+		pred = CODED[pos++]; // переходим к следующим тройкам
+		c = CODED[pos++]; // тоже самое
 	}
 }
 
-void writer(char line[]) // записываем результат
+void writer(char CODED[]) // записываем результат
 {
-	for (pos = 0; pos != kolvo; pos++) // в консоль
-	{
-		printf("%c", RES[pos]);
-	}
-	printf("result\n"); // подсказка
+	printf(" |result|\n"); // подсказка
+	puts(RES); // выводим результат
 
-	FILE* in = fopen("result.txt", "a"); // и в файл
-	if (NULL == in)
+	FILE* in = fopen("result.txt", "a"); // открываем файл
+	if (NULL == in) // если он не доступен, то...
 	{
-		printf("ERROR\nproblem with file 'result'");
-		exit(1);
+		printf("error: could not create file\n"); // выводим ошибку
+		exit(1); // выходим из программы
 	}
 	else
 	{
-		fputs(RES, in);
+		fputs(RES, in); // вставляем результаты в файл
 		fprintf(in, "\n");
-		fclose(in);
+		fclose(in); // закрываем файл
 	}
 }
 
-void ERRORS(char line[]) // вставляем позицию ошибочных элементов
+void ERRORS(int MISTAKES[]) // вставляем позицию ошибочных элементов
 {
-	for (pos = 0; pos != mistake; pos++) // перечисляем все ошибки
+	printf(" |error position|\n"); // подсказка
+
+	for (pos = 0; pos != mistake; pos++) // вставляем позиции ошибок
 	{
-		printf("%d ", MISTAKES[pos]); // и вставляем их позиции
+		printf("%d ", MISTAKES[pos]);
 	}
-	printf("error position\n"); // подсказка
 }

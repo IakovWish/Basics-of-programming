@@ -51,7 +51,7 @@ void read(char orig[]) // читаем
 
 	for (kolvo_orig = 0, pos = 0; orig[pos] != '\0'; pos++, kolvo_orig++) {} // считаем кол-во элементов в исходном массиве
 
-	if (kolvo_orig == 0 || kolvo_orig > 334) // если в файле пусто, то или больше, чем надо
+	if (kolvo_orig == 0 || kolvo_orig > 333) // если в файле пусто, то или больше, чем надо
 	{
 		printf("\nerror: Please change original data in file\n"); // выводим ошибку и...
 		exit(1); // выходим из программы
@@ -137,7 +137,6 @@ void decoder(char coded[]) // раскодировываем
 		tek = coded[pos++]; // тоже самое
 		sled = coded[pos++]; // и тут
 	}
-	result[pos_] = '\n'; // для красоты
 }
 
 void writer(char coded[]) // записываем результат
@@ -154,6 +153,7 @@ void writer(char coded[]) // записываем результат
 	else
 	{
 		fputs(result, in); // вставляем результаты в файл
+		fprintf(in, "\n");
 		fclose(in); // закрываем файл
 	}
 }

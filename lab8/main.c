@@ -44,11 +44,11 @@ void process_line(char buffer[])
 					*out_ptr++ = *word_ptr++;  // копирование слова
 				}
 			}
-
+			*out_ptr++ = c; // вставляем разделитель
+			
 			word = NO;
 			symb = NO;
 			overkill = NO;
-			*out_ptr++ = c; // вставляем разделитель
 		}
 
 		else

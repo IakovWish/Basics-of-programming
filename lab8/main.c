@@ -16,7 +16,6 @@ int main(void)
 	printf("Enter N=");
 	scanf("%d", &N);
 	process_line(line, N);
-	printf("Result: %s\n", line);
 	puts(line);
 	return 0;
 }
@@ -31,7 +30,6 @@ void process_line(char buffer[], int N)
 	char* in_ptr = buffer; // указатель на текущий символ входной строки
 	char* out_ptr = buffer; // указатель на текущий символ выходной строки
 	char* word_ptr = buffer; // указатель на начало слова
-	int k;
 
 	if (strlen(buffer) != 0)
 	{
@@ -50,7 +48,6 @@ void process_line(char buffer[], int N)
 					}
 				}
 				*out_ptr++ = c; // вставляем разделитель
-
 				word = NO;
 				symb = NO;
 				overkill = NO;
@@ -73,7 +70,7 @@ void process_line(char buffer[], int N)
 				word = YES;
 			}
 			in_ptr++;
-		} //while (c != '\0'); // продолжать до конца строки
+		}
 	}
 	else
 	{

@@ -1,7 +1,6 @@
 #pragma warning(disable : 4996) //необходимо для использования устаревших функций (scanf)
 #include <stdio.h>
 
-
 /*определение символических констант*/
 #define YES 1
 #define NO 0

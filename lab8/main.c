@@ -5,7 +5,7 @@
 #define YES 1
 #define NO 0
 #define MAXLINE 1000
-void process_line(char buffer[], int N); // объявляем функцию
+void process_line(char line[], int N); // объявляем функцию
 
 int main(void)
 {
@@ -20,23 +20,22 @@ int main(void)
 	return 0;
 }
 
-void process_line(char buffer[], int N)
+void process_line(char line[], int N)
 {
 	/*объявление и инициализация*/
 	char c; // текущий символ
 	int word = NO; // признак слова
 	int overkill = NO; // индикатор перебора букв в слове
 	int symb = NO; // индикатор наличия лишних символов
-	char* in_ptr = buffer; // указатель на текущий символ входной строки
-	char* out_ptr = buffer; // указатель на текущий символ выходной строки
-	char* word_ptr = buffer; // указатель на начало слова
+	char* in_ptr = line; // указатель на текущий символ входной строки
+	char* out_ptr = line; // указатель на текущий символ выходной строки
+	char* word_ptr = line; // указатель на начало слова
 
-	if (strlen(buffer) != 0)
+	if (strlen(line) != 0) // проверяем был ли совершон ввод
 	{
-		c = *in_ptr;
-		while (c != '\0')
+		do
 		{
-			c = *in_ptr; // взять текущий символ из буфера
+			c = *in_ptr; // взять текущий символ из массива
 			if (c == ' ' || c == '.' || c == ',' || c == '\n' || c == '\0' || c == '?' || c == '!' || c == ';' || c == ':' ||
 				c == '-' || c == '_' || c == '(' || c == ')' || c == '\t' || c == '/' || c == '&' || c == '"') // разделитель найден
 			{
@@ -67,14 +66,14 @@ void process_line(char buffer[], int N)
 				{
 					overkill = YES; // перебор
 				}
-				word = YES;
+				word = YES; // признак слова сохраняется пока оно не кончится
 			}
-			in_ptr++;
-		}
+			in_ptr++; // переставляем указатель на следующий символ
+		} while (c != '\0');
 	}
-	else
+	else // если нет,...
 	{
 		printf("error\n"); // выводим ошибку
-		exit(1);
+		exit(1); // и выходим из программы
 	}
 }

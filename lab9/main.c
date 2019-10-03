@@ -23,10 +23,10 @@ int main(void)
 
 	FILE* fpin = fopen("file.txt", "rt"); // открыть файл для чтения
 	FILE* fpout = fopen("result.txt", "wt"); // открыть файл для записи
-	
+
 	if (fpin == NULL)
 	{
-		printf("error opening file\n"); // информация об ошибке
+		printf ("error opening file\n"); // информация об ошибке
 		return; // ошибка при открытии файла
 	}
 
@@ -39,11 +39,13 @@ int main(void)
 	while (!feof(fpin))// цикл до конца файла
 	{
 		cnt_max = 0; // перед рассмотрением каждой строки аннулируем количество букв в самом длинном слове
-		in_ptr = fgets(line, MAXLINE, fpin); // перезаписываем данные из файла в 
+		in_ptr = fgets(line, MAXLINE, fpin); // получакм новую строку и ставим на нее указатель
+
 		if (in_ptr == NULL)
 		{
 			break; // файл исчерпан
 		}
+
 		do
 		{
 			c = *in_ptr; // взять текущий символ из буфера
@@ -88,19 +90,15 @@ int main(void)
 					{
 						*out_ptr++ = *word_ptr++; // копирование слова
 					}
-					if (c != '\0')
-					{
-						*out_ptr++ = c;
-					}
 				}
 				else
 				{
-					while (word_ptr++ < in_ptr)
-					{}
-					if (c != '\0')
-					{
-						*out_ptr++ = c;
-					}
+					word_ptr = word_ptr + cnt_max;
+				}
+
+				if (c != '\0')
+				{
+					*out_ptr++ = c;
 				}
 				word = NO;
 				symb = NO;
@@ -127,7 +125,9 @@ int main(void)
 	{
 		fprintf(fpout, "%c", *output_ptr++);
 	}
+
 	fclose(fpin); // закрыть входной файл
 	fclose(fpout); // закрыть выходной файл
+
 	return 0;
 }

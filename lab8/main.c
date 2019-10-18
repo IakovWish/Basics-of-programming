@@ -4,113 +4,57 @@
 /*определение символических констант*/
 #define YES 1
 #define NO 0
-#define MAXLINE 1024  // максимальная длина массива
+#define MAXLINE 1000
+void process_line(char line[], int N); // объявляем функцию
 
-int main(int argc, char* argv[])
+int main(void)
+{
+	int N; // наибольшее количество букв в строке
+	char line[MAXLINE];
+	printf("Please, enter some words\nWARNING: words which consist of more than N letters will be deleted\n");
+	gets(line);
+	printf("Enter N=");
+	scanf("%d", &N);
+	process_line(line, N);
+	puts(line);
+	return 0;
+}
+
+void process_line(char line[], int N)
 {
 	/*объявление и инициализация*/
-	char line[MAXLINE]; // текущая строка
-	char result[MAXLINE]; // результирующая строка
+	char c; // текущий символ
 	int word = NO; // признак слова
+	int overkill = NO; // индикатор перебора букв в слове
 	int symb = NO; // индикатор наличия лишних символов
-	int cnt = 0; // счетчик
-	int cnt_max; // количество букв в самом длинном слове в текущей строке
 	char* in_ptr = line; // указатель на текущий символ входной строки
-	char* out_ptr = result; // указатель на текущий символ выходной строки
+	char* out_ptr = line; // указатель на текущий символ выходной строки
 	char* word_ptr = line; // указатель на начало слова
-	char* output_ptr = result; // указатель на результирующий массив
 
-	FILE* fpin;
-	FILE* fpout;
-
-	if (argc > 1)
+	if (strlen(line) != 0) // проверяем был ли совершон ввод
 	{
-		fpin = fopen(argv[1], "rt"); // открыть файл для чтения
-	}
-	else
-	{
-		fpin = fopen("file.txt", "rt"); // открыть файл для чтения
-	}
-
-	fpout = fopen("result.txt", "wt"); // открыть файл для записи
-
-	if (fpin == NULL)
-	{
-		printf("error opening file input\n"); // информация об ошибке
-		return; // ошибка при открытии файла
-	}
-
-	if (fpout == NULL)
-	{
-		printf("error opening file output\n"); // информация об ошибке
-		return; // ошибка при открытии файла
-	}
-
-	while (!feof(fpin))// цикл до конца файла
-	{
-		cnt_max = 0; // перед рассмотрением каждой строки аннулируем количество букв в самом длинном слове
-		in_ptr = fgets(line, MAXLINE, fpin); // получакм новую строку и ставим на нее указатель
-
-		if (in_ptr == NULL)
-		{
-			break; // файл исчерпан
-		}
-
 		do
 		{
-			if (*in_ptr == ' ' || *in_ptr == '.' || *in_ptr == '\0' || *in_ptr == '-' || *in_ptr == ',' || *in_ptr == '?' || *in_ptr == '!' ||
-				*in_ptr == '/' || *in_ptr == ':' || *in_ptr == '\t' || *in_ptr == '_' || *in_ptr == '(' || *in_ptr == ')' || *in_ptr == '-' ||
-				*in_ptr == '"' || *in_ptr == '&' || *in_ptr == '\n') // разделитель найден
+			c = *in_ptr; // взять текущий символ из массива
+			if (c == ' ' || c == '.' || c == ',' || c == '\n' || c == '\0' || c == '?' || c == '!' || c == ';' || c == ':' ||
+				c == '-' || c == '_' || c == '(' || c == ')' || c == '\t' || c == '/' || c == '&' || c == '"') // разделитель найден
 			{
-				if (cnt > cnt_max && symb == NO)
+				if (symb == NO && word == YES && overkill == NO || symb == YES) // если подходит по-1му/2му условию выполнить...
 				{
-					cnt_max = cnt;
-				}
-				symb = NO;
-				cnt = 0;
-			}
-			else
-			{
-				cnt++;
-				if ((*in_ptr < 'a' || *in_ptr > 'z') && (*in_ptr < 'A' || *in_ptr > 'Z')) // проверить не является ли этот символ лишним
-				{
-					symb = YES; // в слове есть лишний символ
-				}
-			}
-		} while (*in_ptr++ != '\0');
-
-		in_ptr = line;
-
-		do
-		{
-			if (*in_ptr == ' ' || *in_ptr == '.' || *in_ptr == '\0' || *in_ptr == '-' || *in_ptr == ',' || *in_ptr == '?' || *in_ptr == '!' ||
-				*in_ptr == '/' || *in_ptr == ':' || *in_ptr == '\t' || *in_ptr == '_' || *in_ptr == '(' || *in_ptr == ')' || *in_ptr == '-' ||
-				*in_ptr == '"' || *in_ptr == '&' || *in_ptr == '\n') // разделитель найден
-			{
-				if (word == YES && symb == NO && cnt != cnt_max || symb == YES)
-				{
-					while (word_ptr < in_ptr)
+					while (word_ptr < in_ptr)  // слово не подлежит удалению оно копируется в результирующую строку
 					{
-						*out_ptr++ = *word_ptr++; // копирование слова
+						*out_ptr++ = *word_ptr++;  // копирование слова
 					}
 				}
-				else
-				{
-					word_ptr = word_ptr + cnt_max;
-				}
-
-				if (*in_ptr != '\0')
-				{
-					*out_ptr++ = *in_ptr;
-				}
+				*out_ptr++ = c; // вставляем разделитель
 				word = NO;
 				symb = NO;
-				cnt = 0;
+				overkill = NO;
 			}
+
 			else
 			{
-				cnt++;
-				if ((*in_ptr < 'a' || *in_ptr > 'z') && (*in_ptr < 'A' || *in_ptr > 'Z')) // проверить не является ли этот символ лишним
+				if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) // проверить не является ли этот символ лишним
 				{
 					symb = YES; // в слове есть лишний символ
 				}
@@ -118,18 +62,18 @@ int main(int argc, char* argv[])
 				{
 					word_ptr = in_ptr; // запомнить адрес начала слова
 				}
-				word = YES;
+				if (in_ptr - word_ptr + 1 > N) // проверка на <перебор> букв
+				{
+					overkill = YES; // перебор
+				}
+				word = YES; // признак слова сохраняется пока оно не кончится
 			}
-		} while (*in_ptr++ != '\0');
+			in_ptr++; // переставляем указатель на следующий символ
+		} while (c != '\0');
 	}
-
-	while (output_ptr != out_ptr)
+	else // если нет,...
 	{
-		fprintf(fpout, "%c", *output_ptr++);
+		printf("error\n"); // выводим ошибку
+		exit(1); // и выходим из программы
 	}
-
-	fclose(fpin); // закрыть входной файл
-	fclose(fpout); // закрыть выходной файл
-
-	return 0;
 }

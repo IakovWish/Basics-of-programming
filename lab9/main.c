@@ -57,9 +57,9 @@ int main(int argc, char* argv[])
 
 		do
 		{
-			if (*in_ptr == ' ' || *in_ptr == '.' || *in_ptr == '\0' || *in_ptr == '-' || *in_ptr == ',' || *in_ptr == '?' || *in_ptr == '!' ||
-				*in_ptr == '/' || *in_ptr == ':' || *in_ptr == '\t' || *in_ptr == '_' || *in_ptr == '(' || *in_ptr == ')' || *in_ptr == '-' ||
-				*in_ptr == '"' || *in_ptr == '&' || *in_ptr == '\n') // разделитель найден
+			if (*in_ptr == '\0' || *in_ptr == '.' || *in_ptr == ' ' || *in_ptr == ',' || *in_ptr == '?' ||
+				*in_ptr == '\t' || *in_ptr == ':' || *in_ptr == '/' || *in_ptr == '_' || *in_ptr == '(' ||
+				*in_ptr == '\n' || *in_ptr == ')' || *in_ptr == '!' || *in_ptr == '&' || *in_ptr == '"') // разделитель найден
 			{
 				if (cnt > cnt_max && symb == NO)
 				{
@@ -82,11 +82,11 @@ int main(int argc, char* argv[])
 
 		do
 		{
-			if (*in_ptr == ' ' || *in_ptr == '.' || *in_ptr == '\0' || *in_ptr == '-' || *in_ptr == ',' || *in_ptr == '?' || *in_ptr == '!' ||
-				*in_ptr == '/' || *in_ptr == ':' || *in_ptr == '\t' || *in_ptr == '_' || *in_ptr == '(' || *in_ptr == ')' || *in_ptr == '-' ||
-				*in_ptr == '"' || *in_ptr == '&' || *in_ptr == '\n') // разделитель найден
+			if (*in_ptr == '\0' || *in_ptr == '.' || *in_ptr == ' ' || *in_ptr == ',' || *in_ptr == '?' ||
+				*in_ptr == '\t' || *in_ptr == ':' || *in_ptr == '/' || *in_ptr == '_' || *in_ptr == '(' ||
+				*in_ptr == '\n' || *in_ptr == ')' || *in_ptr == '!' || *in_ptr == '&' || *in_ptr == '"') // разделитель найден
 			{
-				if (word == YES /*&& symb == NO */&& cnt != cnt_max || symb == YES)
+				if (word == YES && cnt != cnt_max || symb == YES)
 				{
 					while (word_ptr < in_ptr)
 					{

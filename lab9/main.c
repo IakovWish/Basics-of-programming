@@ -20,19 +20,18 @@ int main(int argc, char* argv[])
 	char* word_ptr = line; // указатель на начало слова
 	char* output_ptr = result; // указатель на результирующий массив
 
-	FILE* fpin;
-	FILE* fpout;
-
-	if (argc > 1)
+	if (argc == 2)
 	{
-		fpin = fopen(argv[1], "rt"); // открыть файл для чтения
+		argv[2] = "C:\\Users\\User\\source\\repos\\result.txt";
 	}
-	else
+	else if (argc == 1)
 	{
-		fpin = fopen("file.txt", "rt"); // открыть файл для чтения
+		argv[1] = "C:\\Users\\User\\source\\repos\\file.txt";
+		argv[2] = "C:\\Users\\User\\source\\repos\\result.txt";
 	}
 
-	fpout = fopen("result.txt", "wt"); // открыть файл для записи
+	FILE* fpin = fopen(argv[1], "rt"); // открыть файл для чтения
+	FILE* fpout = fopen(argv[2], "wt"); // открыть файл для записи
 
 	if (fpin == NULL)
 	{
@@ -87,7 +86,7 @@ int main(int argc, char* argv[])
 				*in_ptr == '/' || *in_ptr == ':' || *in_ptr == '\t' || *in_ptr == '_' || *in_ptr == '(' || *in_ptr == ')' || *in_ptr == '-' ||
 				*in_ptr == '"' || *in_ptr == '&' || *in_ptr == '\n') // разделитель найден
 			{
-				if (word == YES && symb == NO && cnt != cnt_max || symb == YES)
+				if (word == YES /*&& symb == NO */&& cnt != cnt_max || symb == YES)
 				{
 					while (word_ptr < in_ptr)
 					{

@@ -20,18 +20,27 @@ int main(int argc, char* argv[])
 	char* word_ptr = line; // указатель на начало слова
 	char* output_ptr = result; // указатель на результирующий массив
 
-	if (argc == 2)
-	{
-		argv[2] = "C:\\Users\\User\\source\\repos\\result.txt";
-	}
-	else if (argc == 1)
-	{
-		argv[1] = "C:\\Users\\User\\source\\repos\\file.txt";
-		argv[2] = "C:\\Users\\User\\source\\repos\\result.txt";
-	}
+	FILE* fpin; // указатели на структуру типа FILE для входнго файла
+	FILE* fpout; // указатели на структуру типа FILE для выходного файла
 
-	FILE* fpin = fopen(argv[1], "rt"); // открыть файл для чтения
-	FILE* fpout = fopen(argv[2], "wt"); // открыть файл для записи
+	char file_name[100] = "C:\\Users\\User\\source\\repos\\file.txt"; // файл для чтения по умолчанию
+	char result_name[100] = "C:\\Users\\User\\source\\repos\\result.txt"; // файл для результата по умолчанию
+
+	if (argc == 3)
+	{
+		fpin = fopen(argv[1], "rt"); // открыть файл для чтения
+		fpout = fopen(argv[2], "wt"); // открыть файл для записи
+	}
+	else if (argc == 2)
+	{
+		fpin = fopen(argv[1], "rt"); // открыть файл для чтения
+		fpout = fopen(result_name, "wt"); // открыть файл для записи
+	}
+	else
+	{
+		fpin = fopen(file_name, "rt"); // открыть файл для чтения
+		fpout = fopen(result_name, "wt"); // открыть файл для записи
+	}
 
 	if (fpin == NULL)
 	{
@@ -61,7 +70,7 @@ int main(int argc, char* argv[])
 				*in_ptr == '\t' || *in_ptr == ':' || *in_ptr == '/' || *in_ptr == '_' || *in_ptr == '(' ||
 				*in_ptr == '\n' || *in_ptr == ')' || *in_ptr == '!' || *in_ptr == '&' || *in_ptr == '"') // разделитель найден
 			{
-				if (cnt > cnt_max && symb == NO)
+				if (cnt > cnt_max&& symb == NO)
 				{
 					cnt_max = cnt;
 				}
@@ -92,10 +101,6 @@ int main(int argc, char* argv[])
 					{
 						*out_ptr++ = *word_ptr++; // копирование слова
 					}
-				}
-				else
-				{
-					word_ptr = word_ptr + cnt_max;
 				}
 
 				if (*in_ptr != '\0')

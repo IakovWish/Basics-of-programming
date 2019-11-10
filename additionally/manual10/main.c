@@ -55,7 +55,7 @@ int main(void)
 		int len = (int)strlen(line); // определить длину строки
 		if (nlines1 == npointers) // динамический массив исчерпан
 		{
-			npointers += NLINES;// увеличить число указателей в массиве
+			npointers += NLINES; // увеличить число указателей в массиве
 
 			lines_ptr = (char**)realloc(lines_ptr, npointers * sizeof(char*)); // перезаказать память для массива указателей
 			memset(&lines_ptr[nlines1], 0, NLINES * sizeof(char*)); // обнулить новую часть массива указателе

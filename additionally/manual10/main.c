@@ -46,11 +46,9 @@ int main(void)
 			break; // файл исчерпан
 		}
 
-		if (nlines0 < NLINES)
+		if (nlines0 < NLINES) // статический массив ещё не исчерпан
 		{
-			// статический массив ещё не исчерпан
-			// сохранить строку в статическом массиве
-			strcpy(&lines[nlines0][0], line);
+			strcpy(&lines[nlines0][0], line); // сохранить строку в статическом массиве
 			nlines0++;
 		}
 

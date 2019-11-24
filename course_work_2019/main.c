@@ -110,15 +110,23 @@ void edit(void)
 
 		printf("Enter new specialty > ");
 		scanf("%s", &people[num].specialty);
-
-		printf("your code number has not changed, it is %d\n", num);
 	}
-	
 }
 
 void del(void)
 {
-
+	find_number();
+	if (found == NO)
+	{
+		printf("a doctor with that name does not exist\n");
+	}
+	else
+	{
+		for (number--; num < number; num++)
+		{
+			people[num] = people[num + 1];
+		}
+	}
 }
 
 void alph(void)

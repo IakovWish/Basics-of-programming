@@ -131,8 +131,22 @@ void del(void)
 
 void alph(void)
 {
-	int i;
+	int i, j;
+	doctor Temp;
 
+	for (j = number - 1; j > 0; j--)
+	{
+		for (i = 0; i < j; i++)
+		{
+			if (strcmp(people[i].surname, people[i + 1].surname) > 0)
+			{
+				Temp = people[i];
+				people[i] = people[i + 1];
+				people[i + 1] = Temp;
+			}
+		}
+	}
+	
 	printf(" N surname name specialty\n");
 	for (i = 0; i < number; i++)
 	{
@@ -147,7 +161,35 @@ void cab(void)
 
 void spec(void)
 {
+	char zad_specialty[N];
+	printf("Enter specialty > ");
+	scanf("%s", &zad_specialty);
 
+	found = NO;
+	int i;
+	int flag;
+
+	for (num = 0; num < number; num++)
+	{
+		i = 0;
+		flag = NO;
+
+		do
+		{
+			if (people[num].specialty[i] != zad_specialty[i])
+			{
+				flag = YES;
+				break;
+			}
+			i++;
+		} while (people[num].specialty[i] != '\0' && zad_specialty[i] != '\0');
+
+		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0')
+		{
+			printf("%2i. %-20s %-20s %10s\n", i, people[num].surname, people[num].name, people[num].specialty);
+			found = YES;
+		}
+	}
 }
 
 void time(void)

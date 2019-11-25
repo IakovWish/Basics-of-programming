@@ -63,6 +63,7 @@ int main(void)
 
 int menu()
 {
+	system("cls");
 	int m;
 	printf("Select menu item.\n");
 	printf("1-Base replenishment.\n");
@@ -79,6 +80,7 @@ int menu()
 
 void rep(void)
 {
+	system("cls");
 	printf("Enter last name > ");
 	scanf("%s", people[number].surname);
 
@@ -95,6 +97,7 @@ void rep(void)
 
 void edit(void)
 {
+	system("cls");
 	find_number();
 	if (found == NO)
 	{
@@ -111,10 +114,12 @@ void edit(void)
 		printf("Enter new specialty > ");
 		scanf("%s", &people[num].specialty);
 	}
+	system("pause");
 }
 
 void del(void)
 {
+	system("cls");
 	find_number();
 	if (found == NO)
 	{
@@ -126,11 +131,14 @@ void del(void)
 		{
 			people[num] = people[num + 1];
 		}
+		printf("a doctor with that name was delited\n");
 	}
+	system("pause");
 }
 
 void alph(void)
 {
+	system("cls");
 	int i, j;
 	doctor Temp;
 
@@ -152,6 +160,7 @@ void alph(void)
 	{
 		printf("%2i. %-20s %-20s %10s\n", i, people[i].surname, people[i].name, people[i].specialty);
 	}
+	system("pause");
 }
 
 void cab(void)
@@ -161,6 +170,7 @@ void cab(void)
 
 void spec(void)
 {
+	system("cls");
 	char zad_specialty[N];
 	printf("Enter specialty > ");
 	scanf("%s", &zad_specialty);
@@ -190,6 +200,7 @@ void spec(void)
 			found = YES;
 		}
 	}
+	system("pause");
 }
 
 void time(void)

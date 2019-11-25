@@ -90,8 +90,6 @@ void rep(void)
 	printf("Enter specialty > ");
 	scanf("%s", &people[number].specialty);
 
-	printf("your code number is %d\n", number);
-
 	number++;
 }
 

@@ -4,8 +4,6 @@
 #define N 100
 #define YES 1
 #define NO 0
-//#define days 6
-//#define hours 23
 
 typedef struct
 {
@@ -16,7 +14,7 @@ typedef struct
 } doctor;
 
 doctor people[N];
-//int shedule[days][hours];
+
 int number = 0;
 int num;
 int found;
@@ -101,7 +99,7 @@ void rep(void)
 
 	printf("Enter specialty > ");
 	scanf("%s", people[number].specialty);
-
+	
 	number++;
 	save();
 	system("cls");
@@ -176,6 +174,10 @@ void alph(void)
 
 void cab(void)
 {
+	int zad_cab;
+	printf("Enter cabinet > ");
+	scanf("%d", &zad_cab);
+
 
 }
 

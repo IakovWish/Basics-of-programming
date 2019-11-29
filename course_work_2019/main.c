@@ -151,26 +151,26 @@ void del(void)
 
 void alph(void)
 {
-	int i, j;
+	int j;
 	doctor Temp;
 
 	for (j = number - 1; j > 0; j--)
 	{
-		for (i = 0; i < j; i++)
+		for (num = 0; num < j; num++)
 		{
-			if (strcmp(people[i].surname, people[i + 1].surname) > 0)
+			if (strcmp(people[num].surname, people[num + 1].surname) > 0)
 			{
-				Temp = people[i];
-				people[i] = people[i + 1];
-				people[i + 1] = Temp;
+				Temp = people[num];
+				people[num] = people[num + 1];
+				people[num + 1] = Temp;
 			}
 		}
 	}
 
 	printf("N   surname              name                 specialty\n");
-	for (i = 0; i < number; i++)
+	for (num = 0; num < number; num++)
 	{
-		printf("%-3d %-20s %-20s %-10s\n", i, people[i].surname, people[i].name, people[i].specialty);
+		printf("%-3d %-20s %-20s %-10s\n", num, people[num].surname, people[num].name, people[num].specialty);
 	}
 	system("pause");
 }

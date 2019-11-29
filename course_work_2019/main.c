@@ -7,7 +7,6 @@
 //#define days 6
 //#define hours 23
 
-
 typedef struct
 {
 	char name[N];
@@ -84,7 +83,7 @@ int menu()
 	printf("4-Display the contents of the database by last name in alphabetical order.\n");
 	printf("5-Displays the download of the selected cabinet by day of the week.\n");
 	printf("6-Listing doctors in the specified specialty in alphabetical order.\n");
-	printf("7-Selection of a doctor by professionand time of appointment.\n");
+	printf("7-Selection of a doctor by profession and time of appointment.\n");
 	printf("8-load from file\n");
 	printf("9-Exit the program\n");
 	scanf("%d", &m);
@@ -238,8 +237,7 @@ void read(void)
 
 	while (!feof(fpin)) // цикл до конца файла
 	{
-		int i = 0;
-		int j = 0;
+		int i, j;
 		char line[N];
 		char* ptr = fgets(line, N, fpin); // чтение строки
 
@@ -248,7 +246,7 @@ void read(void)
 			break; // файл исчерпан
 		}
 
-		for (j = 0; line[i] != ' '; i++, j++)
+		for (i = 0, j = 0; line[i] != ' '; i++, j++)
 		{
 			people[number].surname[j] = line[i];
 		}
@@ -270,6 +268,24 @@ void read(void)
 
 	save();
 	alph();
+}
+
+void save(void)
+{
+	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "wt"); // открыть файл для записи
+
+	if (fpout == NULL)
+	{
+		printf("error opening file output\n"); // информация об ошибке
+		return; // ошибка при открытии файла
+	}
+
+	for (num = 0; num < number; num++)
+	{
+		fprintf(fpout, "%s %s %s\n", people[num].surname, people[num].name, people[num].specialty);
+	}
+
+	fclose(fpout); // закрыть выходной файл
 }
 
 int find_number(void)
@@ -302,22 +318,4 @@ int find_number(void)
 			break;
 		}
 	}
-}
-
-void save(void)
-{
-	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "wt"); // открыть файл для записи
-
-	if (fpout == NULL)
-	{
-		printf("error opening file output\n"); // информация об ошибке
-		return; // ошибка при открытии файла
-	}
-
-	for (num = 0; num < number; num++)
-	{
-		fprintf(fpout, "%s %s %s\n", people[num].surname, people[num].name, people[num].specialty);
-	}
-	
-	fclose(fpout); // закрыть выходной файл
 }

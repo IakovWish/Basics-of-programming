@@ -4,6 +4,9 @@
 #define N 100
 #define YES 1
 #define NO 0
+//#define days 6
+//#define hours 23
+
 
 typedef struct
 {
@@ -14,6 +17,7 @@ typedef struct
 } doctor;
 
 doctor people[N];
+//int shedule[days][hours];
 int number = 0;
 int num;
 int found;
@@ -27,6 +31,7 @@ void cab(void);
 void spec(void);
 void time(void);
 void read(void);
+void save(void);
 int find_number(void);
 
 int main(void)
@@ -96,9 +101,10 @@ void rep(void)
 	scanf("%s", people[number].name);
 
 	printf("Enter specialty > ");
-	scanf("%s", &people[number].specialty);
+	scanf("%s", people[number].specialty);
 
 	number++;
+	save();
 	system("cls");
 }
 
@@ -120,6 +126,7 @@ void edit(void)
 		printf("Enter new specialty > ");
 		scanf("%s", &people[num].specialty);
 	}
+	save();
 	alph();
 }
 
@@ -138,6 +145,7 @@ void del(void)
 		}
 		printf("a doctor with that name was delited\n");
 	}
+	save();
 	alph();
 }
 
@@ -260,6 +268,7 @@ void read(void)
 
 	fclose(fpin); // закрыть входной файл
 
+	save();
 	alph();
 }
 
@@ -293,4 +302,22 @@ int find_number(void)
 			break;
 		}
 	}
+}
+
+void save(void)
+{
+	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "wt"); // открыть файл для записи
+
+	if (fpout == NULL)
+	{
+		printf("error opening file output\n"); // информация об ошибке
+		return; // ошибка при открытии файла
+	}
+
+	for (num = 0; num < number; num++)
+	{
+		fprintf(fpout, "%s %s %s\n", people[num].surname, people[num].name, people[num].specialty);
+	}
+	
+	fclose(fpout); // закрыть выходной файл
 }

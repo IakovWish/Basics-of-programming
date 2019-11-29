@@ -9,14 +9,14 @@ typedef struct
 {
 	char name[N];
 	char surname[N];
-	int cabinet;
 	char specialty[N];
+	int cabinet;
 } doctor;
 
-doctor people[20];
+doctor people[N];
 int number = 0;
 int num;
-int found = NO;
+int found;
 
 int menu(void);
 void rep(void);
@@ -26,12 +26,13 @@ void alph(void);
 void cab(void);
 void spec(void);
 void time(void);
+void read(void);
 int find_number(void);
 
 int main(void)
 {
 	int a;
-	while ((a = menu()) != 8)
+	while ((a = menu()) != 9)
 	{
 		switch (a)
 		{
@@ -56,6 +57,12 @@ int main(void)
 		case 7:
 			time();
 			break;
+		case 8:
+			read();
+			break;
+		default:
+			printf("ERROR\n");
+			system("pause");
 		};
 	}
 	return 0;
@@ -65,7 +72,7 @@ int menu()
 {
 	system("cls");
 	int m;
-	printf("Select menu item.\n");
+	printf("Select menu item:\n");
 	printf("1-Base replenishment.\n");
 	printf("2-Base editing.\n");
 	printf("3-Delete records.\n");
@@ -73,14 +80,15 @@ int menu()
 	printf("5-Displays the download of the selected cabinet by day of the week.\n");
 	printf("6-Listing doctors in the specified specialty in alphabetical order.\n");
 	printf("7-Selection of a doctor by professionand time of appointment.\n");
-	printf("8-Exit the program\n");
+	printf("8-load from file\n");
+	printf("9-Exit the program\n");
 	scanf("%d", &m);
+	system("cls");
 	return m;
 }
 
 void rep(void)
 {
-	system("cls");
 	printf("Enter last name > ");
 	scanf("%s", people[number].surname);
 
@@ -91,11 +99,11 @@ void rep(void)
 	scanf("%s", &people[number].specialty);
 
 	number++;
+	system("cls");
 }
 
 void edit(void)
 {
-	system("cls");
 	find_number();
 	if (found == NO)
 	{
@@ -112,12 +120,11 @@ void edit(void)
 		printf("Enter new specialty > ");
 		scanf("%s", &people[num].specialty);
 	}
-	system("pause");
+	alph();
 }
 
 void del(void)
 {
-	system("cls");
 	find_number();
 	if (found == NO)
 	{
@@ -131,12 +138,11 @@ void del(void)
 		}
 		printf("a doctor with that name was delited\n");
 	}
-	system("pause");
+	alph();
 }
 
 void alph(void)
 {
-	system("cls");
 	int i, j;
 	doctor Temp;
 
@@ -152,11 +158,11 @@ void alph(void)
 			}
 		}
 	}
-	
-	printf(" N surname name specialty\n");
+
+	printf("N   surname              name                 specialty\n");
 	for (i = 0; i < number; i++)
 	{
-		printf("%2i. %-20s %-20s %10s\n", i, people[i].surname, people[i].name, people[i].specialty);
+		printf("%-3d %-20s %-20s %-10s\n", i, people[i].surname, people[i].name, people[i].specialty);
 	}
 	system("pause");
 }
@@ -168,7 +174,6 @@ void cab(void)
 
 void spec(void)
 {
-	system("cls");
 	char zad_specialty[N];
 	printf("Enter specialty > ");
 	scanf("%s", &zad_specialty);
@@ -176,6 +181,8 @@ void spec(void)
 	found = NO;
 	int i;
 	int flag;
+
+	printf("surname              name                 specialty\n");
 
 	for (num = 0; num < number; num++)
 	{
@@ -194,9 +201,14 @@ void spec(void)
 
 		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0')
 		{
-			printf("%2i. %-20s %-20s %10s\n", i, people[num].surname, people[num].name, people[num].specialty);
+			printf("%-20s %-20s %-10s\n", people[num].surname, people[num].name, people[num].specialty);
 			found = YES;
 		}
+	}
+	if (found == NO)
+	{
+		system("cls");
+		printf("specialty %s does not exist\n", zad_specialty);
 	}
 	system("pause");
 }
@@ -204,6 +216,51 @@ void spec(void)
 void time(void)
 {
 
+}
+
+void read(void)
+{
+	FILE* fpin = fopen("C:\\Users\\User\\source\\repos\\file.txt", "rt"); // открыть входной файл для чтения
+	
+	if (fpin == NULL)
+	{
+		printf("error opening file input\n"); // информация об ошибке
+		return; // ошибка при открытии файла
+	}
+
+	while (!feof(fpin)) // цикл до конца файла
+	{
+		int i = 0;
+		int j = 0;
+		char line[N];
+		char* ptr = fgets(line, N, fpin); // чтение строки
+
+		if (ptr == NULL)
+		{
+			break; // файл исчерпан
+		}
+
+		for (j = 0; line[i] != ' '; i++, j++)
+		{
+			people[number].surname[j] = line[i];
+		}
+
+		for (i++, j = 0; line[i] != ' '; i++, j++)
+		{
+			people[number].name[j] = line[i];
+		}
+
+		for (i++, j = 0; line[i] != '\n' && line[i] != '\0'; i++, j++)
+		{
+			people[number].specialty[j] = line[i];
+		}
+
+		number++;
+	}
+
+	fclose(fpin); // закрыть входной файл
+
+	alph();
 }
 
 int find_number(void)

@@ -123,7 +123,7 @@ void edit(void)
 		scanf("%s", people[num].name);
 
 		printf("Enter new specialty > ");
-		scanf("%s", &people[num].specialty);
+		scanf("%s", people[num].specialty);
 	}
 	save();
 	alph();

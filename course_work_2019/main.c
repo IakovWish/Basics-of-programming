@@ -343,7 +343,7 @@ void times(void) // Подбор врача по специальности и �
 	printf("Enter time > ");
 	scanf("%f", &zad_time);
 
-
+	// добавить дни недели
 
 	found = NO;
 	int i;
@@ -368,7 +368,7 @@ void times(void) // Подбор врача по специальности и �
 
 		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0' && people[num].week.sun[0] < zad_time && people[num].week.sun[1] > zad_time)
 		{
-			printf("%-20s %-20s %-10s %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].week.sun[0], people[num].week.sun[1]);
+			printf("%-20s %-20s %-10s %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].week.sun[0], people[num].week.sun[1]); // добавить не только вс
 			found = YES;
 		}
 	}

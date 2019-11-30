@@ -335,7 +335,49 @@ void spec(void)
 
 void times(void) // Подбор врача по специальности и времени приёма.
 {
+	char zad_specialty[N];
+	printf("Enter specialty > ");
+	scanf("%s", &zad_specialty);
 
+	float zad_time;
+	printf("Enter time > ");
+	scanf("%f", &zad_time);
+
+
+
+	found = NO;
+	int i;
+	int flag;
+
+	printf("surname              name                 specialty\n");
+
+	for (num = 0; num < number; num++)
+	{
+		i = 0;
+		flag = NO;
+
+		do
+		{
+			if (people[num].specialty[i] != zad_specialty[i])
+			{
+				flag = YES;
+				break;
+			}
+			i++;
+		} while (people[num].specialty[i] != '\0' && zad_specialty[i] != '\0');
+
+		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0' && people[num].week.sun[0] < zad_time && people[num].week.sun[1] > zad_time)
+		{
+			printf("%-20s %-20s %-10s %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].week.sun[0], people[num].week.sun[1]);
+			found = YES;
+		}
+	}
+	if (found == NO)
+	{
+		system("cls");
+		printf("specialty %s does not exist\n", zad_specialty);
+	}
+	system("pause");
 }
 
 void read(void)

@@ -1,5 +1,7 @@
 #pragma warning(disable : 4996)
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define N 100
 #define YES 1
@@ -7,10 +9,22 @@
 
 typedef struct
 {
+	float mon[1];
+	float tue[1];
+	float wed[1];
+	float thu[1];
+	float fri[1];
+	float sat[1];
+	float sun[1];
+} schedule;
+
+typedef struct
+{
 	char name[N];
 	char surname[N];
 	char specialty[N];
 	int cabinet;
+	schedule week;
 	float from;
 	float to;
 } doctor;
@@ -28,13 +42,16 @@ void del(void);
 void alph(void);
 void cab(void);
 void spec(void);
-void time(void);
+void times(void);
 void read(void);
 void save(void);
+void shed(void);
 int find_number(void);
 
 int main(void)
 {
+	srand(time(NULL));
+
 	int a;
 	while ((a = menu()) != 9)
 	{
@@ -59,7 +76,7 @@ int main(void)
 			spec();
 			break;
 		case 7:
-			time();
+			times();
 			break;
 		case 8:
 			read();
@@ -105,11 +122,7 @@ void rep(void)
 	printf("Enter cabinet number > ");
 	scanf("%d", &people[number].cabinet);
 
-	printf("Work from > ");
-	scanf("%f", &people[number].from);
-
-	printf("Work to > ");
-	scanf("%f", &people[number].to);
+	shed();
 	
 	number++;
 	save();
@@ -175,15 +188,15 @@ void alph(void)
 		}
 	}
 
-	printf("N   surname              name                 specialty\n");
+	printf("N   surname              name                 specialty            cabinet\n");
 	for (num = 0; num < number; num++)
 	{
-		printf("%-3d %-20s %-20s %-10s\n", num, people[num].surname, people[num].name, people[num].specialty);
+		printf("%-3d %-20s %-20s %-20s %-3d\n", num, people[num].surname, people[num].name, people[num].specialty, people[num].cabinet);
 	}
 	system("pause");
 }
 
-void cab(void)
+void cab(void) // Вывод загрузки выбранного кабинета по дням недели.
 {
 	found = NO;
 	int zad_cab;
@@ -198,13 +211,75 @@ void cab(void)
 		}
 	}
 
-	printf("surname              name                 specialty   cabinet from  to\n");
+	printf("surname              name                 specialty            cabinet  from    to\n");
+
+	printf("\nMonday\n");
+	
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.mon[0], people[num].week.mon[1]);
+		}
+	}
+
+	printf("\nTuesday\n");
 
 	for (num = 0; num != number; num++)
 	{
 		if (people[num].cabinet == zad_cab)
 		{
-			printf("%-20s %-20s %-10s %3d      %4.2f %4.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].from, people[num].to);
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.tue[0], people[num].week.tue[1]);
+		}
+	}
+
+	printf("\nWednesday\n");
+
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.wed[0], people[num].week.wed[1]);
+		}
+	}
+
+	printf("\nThursday\n");
+
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.thu[0], people[num].week.thu[1]);
+		}
+	}
+
+	printf("\nFriday\n");
+
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.fri[0], people[num].week.fri[1]);
+		}
+	}
+
+	printf("\nSaturday\n");
+
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.sat[0], people[num].week.sat[1]);
+		}
+	}
+
+	printf("\nSunday\n");
+
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.sun[0], people[num].week.sun[1]);
 		}
 	}
 
@@ -258,7 +333,7 @@ void spec(void)
 	system("pause");
 }
 
-void time(void)
+void times(void) // Подбор врача по специальности и времени приёма.
 {
 
 }
@@ -298,6 +373,10 @@ void read(void)
 		{
 			people[number].specialty[j] = line[i];
 		}
+
+		people[number].cabinet = 1 + rand() % 15;
+
+		shed();
 
 		number++;
 	}
@@ -356,4 +435,28 @@ int find_number(void)
 			break;
 		}
 	}
+}
+
+void shed(void)
+{
+	people[number].week.mon[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.mon[1] = people[number].week.mon[0] + 8;
+
+	people[number].week.tue[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.tue[1] = people[number].week.tue[0] + 8;
+
+	people[number].week.wed[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.wed[1] = people[number].week.wed[0] + 8;
+
+	people[number].week.thu[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.thu[1] = people[number].week.thu[0] + 8;
+
+	people[number].week.fri[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.fri[1] = people[number].week.fri[0] + 8;
+
+	people[number].week.sat[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.sat[1] = people[number].week.sat[0] + 8;
+
+	people[number].week.sun[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+	people[number].week.sun[1] = people[number].week.sun[0] + 8;
 }

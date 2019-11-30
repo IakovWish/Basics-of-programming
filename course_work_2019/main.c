@@ -11,6 +11,8 @@ typedef struct
 	char surname[N];
 	char specialty[N];
 	int cabinet;
+	float from;
+	float to;
 } doctor;
 
 doctor people[N];
@@ -99,6 +101,15 @@ void rep(void)
 
 	printf("Enter specialty > ");
 	scanf("%s", people[number].specialty);
+
+	printf("Enter cabinet number > ");
+	scanf("%d", &people[number].cabinet);
+
+	printf("Work from > ");
+	scanf("%f", &people[number].from);
+
+	printf("Work to > ");
+	scanf("%f", &people[number].to);
 	
 	number++;
 	save();
@@ -174,11 +185,36 @@ void alph(void)
 
 void cab(void)
 {
+	found = NO;
 	int zad_cab;
 	printf("Enter cabinet > ");
 	scanf("%d", &zad_cab);
 
+	for (num = 0; num < number && found == NO; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			found = YES;
+		}
+	}
 
+	printf("surname              name                 specialty   cabinet from  to\n");
+
+	for (num = 0; num != number; num++)
+	{
+		if (people[num].cabinet == zad_cab)
+		{
+			printf("%-20s %-20s %-10s %3d      %4.2f %4.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].from, people[num].to);
+		}
+	}
+
+	if (found == NO)
+	{
+		system("cls");
+		printf("cabinet %d does not exist\n", zad_cab);
+	}
+
+	system("pause");
 }
 
 void spec(void)

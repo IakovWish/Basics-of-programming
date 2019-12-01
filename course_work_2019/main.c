@@ -349,7 +349,7 @@ void times(void) // Подбор врача по специальности и �
 	int i;
 	int flag;
 
-	printf("surname              name                 specialty\n");
+	printf("surname              name                 specialty            cabinet  from    to\n");
 
 	for (num = 0; num < number; num++)
 	{
@@ -368,14 +368,14 @@ void times(void) // Подбор врача по специальности и �
 
 		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0' && people[num].week.sun[0] < zad_time && people[num].week.sun[1] > zad_time)
 		{
-			printf("%-20s %-20s %-10s %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].week.sun[0], people[num].week.sun[1]); // добавить не только вс
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.sun[0], people[num].week.sun[1]); // добавить не только вс
 			found = YES;
 		}
 	}
 	if (found == NO)
 	{
 		system("cls");
-		printf("specialty %s does not exist\n", zad_specialty);
+		printf("At %4.2f no %s works.\n", zad_time, zad_specialty);
 	}
 	system("pause");
 }
@@ -482,23 +482,59 @@ int find_number(void)
 void shed(void)
 {
 	people[number].week.mon[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.mon[1] = people[number].week.mon[0] + 8;
+	people[number].week.mon[1] = people[number].week.mon[0] + 8.0;
+
+	if (people[number].week.mon[1] > 23.59)
+	{
+		people[number].week.mon[1] = people[number].week.mon[1] - 24.0;
+	}
 
 	people[number].week.tue[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.tue[1] = people[number].week.tue[0] + 8;
+	people[number].week.tue[1] = people[number].week.tue[0] + 8.0;
+
+	if (people[number].week.tue[1] > 23.59)
+	{
+		people[number].week.tue[1] = people[number].week.tue[1] - 24.0;
+	}
 
 	people[number].week.wed[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.wed[1] = people[number].week.wed[0] + 8;
+
+	people[number].week.wed[1] = people[number].week.wed[0] + 8.0;
+
+	if (people[number].week.wed[1] > 23.59)
+	{
+		people[number].week.wed[1] = people[number].week.wed[1] - 24.0;
+	}
 
 	people[number].week.thu[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.thu[1] = people[number].week.thu[0] + 8;
+	people[number].week.thu[1] = people[number].week.thu[0] + 8.0;
+
+	if (people[number].week.thu[1] > 23.59)
+	{
+		people[number].week.thu[1] = people[number].week.thu[1] - 24.0;
+	}
 
 	people[number].week.fri[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.fri[1] = people[number].week.fri[0] + 8;
+	people[number].week.fri[1] = people[number].week.fri[0] + 8.0;
+
+	if (people[number].week.fri[1] > 23.59)
+	{
+		people[number].week.fri[1] = people[number].week.fri[1] - 24.0;
+	}
 
 	people[number].week.sat[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.sat[1] = people[number].week.sat[0] + 8;
+	people[number].week.sat[1] = people[number].week.sat[0] + 8.0;
+
+	if (people[number].week.sat[1] > 23.59)
+	{
+		people[number].week.sat[1] = people[number].week.sat[1] - 24.0;
+	}
 
 	people[number].week.sun[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.sun[1] = people[number].week.sun[0] + 8;
+	people[number].week.sun[1] = people[number].week.sun[0] + 8.0;
+
+	if (people[number].week.sun[1] > 23.59)
+	{
+		people[number].week.sun[1] = people[number].week.sun[1] - 24.0;
+	}
 }

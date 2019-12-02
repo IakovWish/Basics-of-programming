@@ -3,11 +3,11 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define N 100
+#define N 200
 #define YES 1
 #define NO 0
 
-typedef struct
+typedef struct 
 {
 	float mon[1];
 	float tue[1];
@@ -45,7 +45,7 @@ void spec(void);
 void times(void);
 void read(void);
 void save(void);
-void shed(void);
+//void shed(void);
 int find_number(void);
 
 int main(void)
@@ -122,7 +122,7 @@ void rep(void)
 	printf("Enter cabinet number > ");
 	scanf("%d", &people[number].cabinet);
 
-	shed();
+	//shed();
 	
 	number++;
 	save();
@@ -210,7 +210,6 @@ void cab(void) // Вывод загрузки выбранного кабине�
 			found = YES;
 		}
 	}
-
 	printf("surname              name                 specialty            cabinet  from    to\n");
 
 	printf("\nMonday\n");
@@ -372,6 +371,7 @@ void times(void) // Подбор врача по специальности и �
 			found = YES;
 		}
 	}
+
 	if (found == NO)
 	{
 		system("cls");
@@ -393,7 +393,9 @@ void read(void)
 	while (!feof(fpin)) // цикл до конца файла
 	{
 		int i, j;
+		int cabin[N];
 		char line[N];
+		char* mas = line;
 		char* ptr = fgets(line, N, fpin); // чтение строки
 
 		if (ptr == NULL)
@@ -411,14 +413,159 @@ void read(void)
 			people[number].name[j] = line[i];
 		}
 
-		for (i++, j = 0; line[i] != '\n' && line[i] != '\0'; i++, j++)
+		for (i++, j = 0; line[i] != ' '; i++, j++)
 		{
 			people[number].specialty[j] = line[i];
 		}
 
-		people[number].cabinet = 1 + rand() % 15;
+		mas = &line[++i];
 
-		shed();
+		people[number].cabinet = atoi(mas);
+
+		//printf("%d\n", people[number].cabinet);
+
+		for (i++; line[i] != ' '; i++)
+		{
+		
+		}
+
+		mas = &line[++i];
+
+		people[number].week.mon[0] = atof(mas);
+		//printf("%4.2f\n", people[number].week.mon[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.mon[1] = atof(mas);
+		printf("%4.2f\n", people[number].week.mon[1]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.tue[0] = atof(mas);
+		//printf("%4.2f\n", people[number].week.tue[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.tue[1] = atof(mas);
+		//printf("%4.2f\n", people[number].week.tue[1]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.wed[0] = atof(mas);
+		//printf("%4.2f\n", people[number].week.wed[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.wed[1] = atof(mas);
+		//printf("%4.2f\n", people[number].week.wed[1]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.thu[0] = atof(mas);
+		//printf("%4.2f\n", people[number].week.thu[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.thu[1] = atof(mas);
+		//printf("%4.2f\n", people[number].week.thu[1]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.fri[0] = atof(mas);
+		//printf("%4.2f\n", people[number].week.fri[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.fri[1] = atof(mas);
+		//printf("%4.2f\n", people[number].week.fri[1]);
+		printf("%4.2f\n", people[number].week.mon[1]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.sat[0] = atof(mas);
+		printf("%4.2f\n", people[number].week.sat[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.sat[1] = atof(mas);
+		printf("%4.2f\n", people[number].week.sat[1]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.sun[0] = atof(mas);
+		printf("%4.2f\n", people[number].week.sun[0]);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
+		mas = &line[++i];
+
+		people[number].week.sun[1] = atof(mas);
+		printf("%4.2f\n", people[number].week.sun[1]);
+
+		//shed();
 
 		number++;
 	}
@@ -479,62 +626,62 @@ int find_number(void)
 	}
 }
 
-void shed(void)
-{
-	people[number].week.mon[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.mon[1] = people[number].week.mon[0] + 8.0;
-
-	if (people[number].week.mon[1] > 23.59)
-	{
-		people[number].week.mon[1] = people[number].week.mon[1] - 24.0;
-	}
-
-	people[number].week.tue[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.tue[1] = people[number].week.tue[0] + 8.0;
-
-	if (people[number].week.tue[1] > 23.59)
-	{
-		people[number].week.tue[1] = people[number].week.tue[1] - 24.0;
-	}
-
-	people[number].week.wed[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-
-	people[number].week.wed[1] = people[number].week.wed[0] + 8.0;
-
-	if (people[number].week.wed[1] > 23.59)
-	{
-		people[number].week.wed[1] = people[number].week.wed[1] - 24.0;
-	}
-
-	people[number].week.thu[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.thu[1] = people[number].week.thu[0] + 8.0;
-
-	if (people[number].week.thu[1] > 23.59)
-	{
-		people[number].week.thu[1] = people[number].week.thu[1] - 24.0;
-	}
-
-	people[number].week.fri[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.fri[1] = people[number].week.fri[0] + 8.0;
-
-	if (people[number].week.fri[1] > 23.59)
-	{
-		people[number].week.fri[1] = people[number].week.fri[1] - 24.0;
-	}
-
-	people[number].week.sat[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.sat[1] = people[number].week.sat[0] + 8.0;
-
-	if (people[number].week.sat[1] > 23.59)
-	{
-		people[number].week.sat[1] = people[number].week.sat[1] - 24.0;
-	}
-
-	people[number].week.sun[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-	people[number].week.sun[1] = people[number].week.sun[0] + 8.0;
-
-	if (people[number].week.sun[1] > 23.59)
-	{
-		people[number].week.sun[1] = people[number].week.sun[1] - 24.0;
-	}
-}
+//void shed(void)
+//{
+//	people[number].week.mon[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//	people[number].week.mon[1] = people[number].week.mon[0] + 8.0;
+//
+//	if (people[number].week.mon[1] > 23.59)
+//	{
+//		people[number].week.mon[1] = people[number].week.mon[1] - 24.0;
+//	}
+//
+//	people[number].week.tue[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//	people[number].week.tue[1] = people[number].week.tue[0] + 8.0;
+//
+//	if (people[number].week.tue[1] > 23.59)
+//	{
+//		people[number].week.tue[1] = people[number].week.tue[1] - 24.0;
+//	}
+//
+//	people[number].week.wed[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//
+//	people[number].week.wed[1] = people[number].week.wed[0] + 8.0;
+//
+//	if (people[number].week.wed[1] > 23.59)
+//	{
+//		people[number].week.wed[1] = people[number].week.wed[1] - 24.0;
+//	}
+//
+//	people[number].week.thu[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//	people[number].week.thu[1] = people[number].week.thu[0] + 8.0;
+//
+//	if (people[number].week.thu[1] > 23.59)
+//	{
+//		people[number].week.thu[1] = people[number].week.thu[1] - 24.0;
+//	}
+//
+//	people[number].week.fri[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//	people[number].week.fri[1] = people[number].week.fri[0] + 8.0;
+//
+//	if (people[number].week.fri[1] > 23.59)
+//	{
+//		people[number].week.fri[1] = people[number].week.fri[1] - 24.0;
+//	}
+//
+//	people[number].week.sat[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//	people[number].week.sat[1] = people[number].week.sat[0] + 8.0;
+//
+//	if (people[number].week.sat[1] > 23.59)
+//	{
+//		people[number].week.sat[1] = people[number].week.sat[1] - 24.0;
+//	}
+//
+//	people[number].week.sun[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
+//	people[number].week.sun[1] = people[number].week.sun[0] + 8.0;
+//
+//	if (people[number].week.sun[1] > 23.59)
+//	{
+//		people[number].week.sun[1] = people[number].week.sun[1] - 24.0;
+//	}
+//}

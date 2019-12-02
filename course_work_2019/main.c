@@ -1,21 +1,20 @@
 #pragma warning(disable : 4996)
 #include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 
 #define N 200
 #define YES 1
 #define NO 0
 
-typedef struct 
+typedef struct
 {
-	float mon[1];
-	float tue[1];
-	float wed[1];
-	float thu[1];
-	float fri[1];
-	float sat[1];
-	float sun[1];
+	float mon[2];
+	float tue[2];
+	float wed[2];
+	float thu[2];
+	float fri[2];
+	float sat[2];
+	float sun[2];
 } schedule;
 
 typedef struct
@@ -35,23 +34,20 @@ int number = 0;
 int num;
 int found;
 
-int menu(void);
-void rep(void);
-void edit(void);
-void del(void);
-void alph(void);
-void cab(void);
-void spec(void);
-void times(void);
-void read(void);
-void save(void);
-//void shed(void);
-int find_number(void);
+int menu(void); // Меню.
+void rep(void); // Пополнение базы.
+void edit(void); // Редактирование базы.
+void del(void); // Удаление записей.
+void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке.
+void cab(void); // Вывод загрузки выбранного кабинета по дням недели.
+void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке.
+void times(void); // Подбор врача по специальности и времени приёма.
+void read(void); // Чтение из файла.
+void save(void); // Запись в файл.
+void find_number(void); // Поиск номера по фамилии.
 
 int main(void)
 {
-	srand(time(NULL));
-
 	int a;
 	while ((a = menu()) != 9)
 	{
@@ -122,8 +118,6 @@ void rep(void)
 	printf("Enter cabinet number > ");
 	scanf("%d", &people[number].cabinet);
 
-	//shed();
-	
 	number++;
 	save();
 	system("cls");
@@ -213,7 +207,7 @@ void cab(void) // Вывод загрузки выбранного кабине�
 	printf("surname              name                 specialty            cabinet  from    to\n");
 
 	printf("\nMonday\n");
-	
+
 	for (num = 0; num != number; num++)
 	{
 		if (people[num].cabinet == zad_cab)
@@ -383,7 +377,7 @@ void times(void) // Подбор врача по специальности и �
 void read(void)
 {
 	FILE* fpin = fopen("C:\\Users\\User\\source\\repos\\file.txt", "rt"); // открыть входной файл для чтения
-	
+
 	if (fpin == NULL)
 	{
 		printf("error opening file input\n"); // информация об ошибке
@@ -422,17 +416,14 @@ void read(void)
 
 		people[number].cabinet = atoi(mas);
 
-		//printf("%d\n", people[number].cabinet);
-
 		for (i++; line[i] != ' '; i++)
 		{
-		
+
 		}
 
 		mas = &line[++i];
 
 		people[number].week.mon[0] = atof(mas);
-		//printf("%4.2f\n", people[number].week.mon[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -442,7 +433,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.mon[1] = atof(mas);
-		printf("%4.2f\n", people[number].week.mon[1]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -452,7 +442,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.tue[0] = atof(mas);
-		//printf("%4.2f\n", people[number].week.tue[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -462,7 +451,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.tue[1] = atof(mas);
-		//printf("%4.2f\n", people[number].week.tue[1]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -472,7 +460,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.wed[0] = atof(mas);
-		//printf("%4.2f\n", people[number].week.wed[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -482,7 +469,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.wed[1] = atof(mas);
-		//printf("%4.2f\n", people[number].week.wed[1]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -492,7 +478,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.thu[0] = atof(mas);
-		//printf("%4.2f\n", people[number].week.thu[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -502,7 +487,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.thu[1] = atof(mas);
-		//printf("%4.2f\n", people[number].week.thu[1]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -512,7 +496,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.fri[0] = atof(mas);
-		//printf("%4.2f\n", people[number].week.fri[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -522,8 +505,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.fri[1] = atof(mas);
-		//printf("%4.2f\n", people[number].week.fri[1]);
-		printf("%4.2f\n", people[number].week.mon[1]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -533,7 +514,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.sat[0] = atof(mas);
-		printf("%4.2f\n", people[number].week.sat[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -543,7 +523,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.sat[1] = atof(mas);
-		printf("%4.2f\n", people[number].week.sat[1]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -553,7 +532,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.sun[0] = atof(mas);
-		printf("%4.2f\n", people[number].week.sun[0]);
 
 		for (i++; line[i] != ' '; i++)
 		{
@@ -563,9 +541,6 @@ void read(void)
 		mas = &line[++i];
 
 		people[number].week.sun[1] = atof(mas);
-		printf("%4.2f\n", people[number].week.sun[1]);
-
-		//shed();
 
 		number++;
 	}
@@ -588,13 +563,13 @@ void save(void)
 
 	for (num = 0; num < number; num++)
 	{
-		fprintf(fpout, "%s %s %s\n", people[num].surname, people[num].name, people[num].specialty);
+		fprintf(fpout, "%s %s %s %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.mon[0], people[num].week.mon[1], people[num].week.tue[0], people[num].week.tue[1], people[num].week.wed[0], people[num].week.wed[1], people[num].week.thu[0], people[num].week.thu[1], people[num].week.fri[0], people[num].week.fri[1], people[num].week.sat[0], people[num].week.sat[1], people[num].week.sun[0], people[num].week.sun[1]);
 	}
 
 	fclose(fpout); // закрыть выходной файл
 }
 
-int find_number(void)
+void find_number(void)
 {
 	found = NO;
 	int i;
@@ -625,63 +600,3 @@ int find_number(void)
 		}
 	}
 }
-
-//void shed(void)
-//{
-//	people[number].week.mon[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//	people[number].week.mon[1] = people[number].week.mon[0] + 8.0;
-//
-//	if (people[number].week.mon[1] > 23.59)
-//	{
-//		people[number].week.mon[1] = people[number].week.mon[1] - 24.0;
-//	}
-//
-//	people[number].week.tue[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//	people[number].week.tue[1] = people[number].week.tue[0] + 8.0;
-//
-//	if (people[number].week.tue[1] > 23.59)
-//	{
-//		people[number].week.tue[1] = people[number].week.tue[1] - 24.0;
-//	}
-//
-//	people[number].week.wed[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//
-//	people[number].week.wed[1] = people[number].week.wed[0] + 8.0;
-//
-//	if (people[number].week.wed[1] > 23.59)
-//	{
-//		people[number].week.wed[1] = people[number].week.wed[1] - 24.0;
-//	}
-//
-//	people[number].week.thu[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//	people[number].week.thu[1] = people[number].week.thu[0] + 8.0;
-//
-//	if (people[number].week.thu[1] > 23.59)
-//	{
-//		people[number].week.thu[1] = people[number].week.thu[1] - 24.0;
-//	}
-//
-//	people[number].week.fri[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//	people[number].week.fri[1] = people[number].week.fri[0] + 8.0;
-//
-//	if (people[number].week.fri[1] > 23.59)
-//	{
-//		people[number].week.fri[1] = people[number].week.fri[1] - 24.0;
-//	}
-//
-//	people[number].week.sat[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//	people[number].week.sat[1] = people[number].week.sat[0] + 8.0;
-//
-//	if (people[number].week.sat[1] > 23.59)
-//	{
-//		people[number].week.sat[1] = people[number].week.sat[1] - 24.0;
-//	}
-//
-//	people[number].week.sun[0] = (0 + rand() % 23) + ((0 + rand() % 60) / 100.0);
-//	people[number].week.sun[1] = people[number].week.sun[0] + 8.0;
-//
-//	if (people[number].week.sun[1] > 23.59)
-//	{
-//		people[number].week.sun[1] = people[number].week.sun[1] - 24.0;
-//	}
-//}

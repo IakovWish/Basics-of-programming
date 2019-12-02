@@ -1,6 +1,5 @@
 #pragma warning(disable : 4996)
 #include <stdio.h>
-//#include <stdlib.h>
 
 #define N 200
 #define YES 1
@@ -24,27 +23,27 @@ typedef struct
 	char specialty[N];
 	int cabinet;
 	schedule week;
-	float from;
-	float to;
 } doctor;
 
 doctor people[N];
+
+float timing[14]; // Время начала и конца работы в каждый день недели. Время начала работы = 2*(n-1), n - день недели
 
 int number = 0;
 int num;
 int found;
 
-int menu(void); // Меню.
-void rep(void); // Пополнение базы.
-void edit(void); // Редактирование базы.
-void del(void); // Удаление записей.
-void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке.
-void cab(void); // Вывод загрузки выбранного кабинета по дням недели.
-void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке.
-void times(void); // Подбор врача по специальности и времени приёма.
-void read(void); // Чтение из файла.
-void save(void); // Запись в файл.
-void find_number(void); // Поиск номера по фамилии.
+int menu(void); // Меню. // готово
+void rep(void); // Пополнение базы. // добавить добавление времени работы\\??
+void edit(void); // Редактирование базы. // добавить изменение времени работы\\??
+void del(void); // Удаление записей. // проверить\\??
+void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке. // готово
+void cab(void); // Вывод загрузки выбранного кабинета по дням недели. // готово
+void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке. // готово
+void times(void); // Подбор врача по специальности и времени приёма. // пока что работает только с вс\\??
+void read(void); // Чтение из файла. // готово
+void save(void); // Запись в файл. // готово
+void find_number(void); // Поиск номера по фамилии. // готово
 
 int main(void)
 {
@@ -387,7 +386,6 @@ void read(void)
 	while (!feof(fpin)) // цикл до конца файла
 	{
 		int i, j;
-		int cabin[N];
 		char line[N];
 		char* mas = line;
 		char* ptr = fgets(line, N, fpin); // чтение строки

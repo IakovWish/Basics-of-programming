@@ -1,5 +1,6 @@
 #pragma warning(disable : 4996)
 #include <stdio.h>
+#include <stdlib.h>
 
 #define N 200
 #define YES 1
@@ -7,40 +8,27 @@
 
 typedef struct
 {
-	float mon[2];
-	float tue[2];
-	float wed[2];
-	float thu[2];
-	float fri[2];
-	float sat[2];
-	float sun[2];
-} schedule;
-
-typedef struct
-{
 	char name[N];
 	char surname[N];
 	char specialty[N];
 	int cabinet;
-	schedule week;
+	float timing[7][2];
 } doctor;
 
 doctor people[N];
-
-float timing[14]; // Время начала и конца работы в каждый день недели. Время начала работы = 2*(n-1), n - день недели
 
 int number = 0;
 int num;
 int found;
 
-int menu(void); // Меню. // готово
+int menu(void); // Меню. \\ готово
 void rep(void); // Пополнение базы. // добавить добавление времени работы\\??
 void edit(void); // Редактирование базы. // добавить изменение времени работы\\??
 void del(void); // Удаление записей. // проверить\\??
-void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке. // готово
-void cab(void); // Вывод загрузки выбранного кабинета по дням недели. // готово
-void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке. // готово
-void times(void); // Подбор врача по специальности и времени приёма. // пока что работает только с вс\\??
+void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке. \\ готово
+void cab(void); // Вывод загрузки выбранного кабинета по дням недели. \\ добавить вывод дня недели\\??
+void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке. \\ готово
+void times(void); // Подбор врача по специальности и времени приёма. \\ готово
 void read(void); // Чтение из файла. // готово
 void save(void); // Запись в файл. // готово
 void find_number(void); // Поиск номера по фамилии. // готово
@@ -192,92 +180,39 @@ void alph(void)
 void cab(void) // Вывод загрузки выбранного кабинета по дням недели.
 {
 	found = NO;
+
 	int zad_cab;
 	printf("Enter cabinet > ");
 	scanf("%d", &zad_cab);
+
+	int day;
+	printf("Enter day of the week > ");
+	scanf("%d", &day);
 
 	for (num = 0; num < number && found == NO; num++)
 	{
 		if (people[num].cabinet == zad_cab)
 		{
 			found = YES;
+			break;
 		}
 	}
-	printf("surname              name                 specialty            cabinet  from    to\n");
 
-	printf("\nMonday\n");
-
-	for (num = 0; num != number; num++)
+	if (found == YES)
 	{
-		if (people[num].cabinet == zad_cab)
+		printf("surname              name                 specialty            cabinet  from    to\n");
+		printf("%d\n", day);
+
+		for (num = 0; num < number; num++)
 		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.mon[0], people[num].week.mon[1]);
+			if (people[num].cabinet == zad_cab)
+			{
+				printf("%-20s %-20s %-20s %-3d    %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].timing[day - 1][0], people[num].timing[day - 1][1]);
+			}
 		}
 	}
-
-	printf("\nTuesday\n");
-
-	for (num = 0; num != number; num++)
+	else
 	{
-		if (people[num].cabinet == zad_cab)
-		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.tue[0], people[num].week.tue[1]);
-		}
-	}
-
-	printf("\nWednesday\n");
-
-	for (num = 0; num != number; num++)
-	{
-		if (people[num].cabinet == zad_cab)
-		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.wed[0], people[num].week.wed[1]);
-		}
-	}
-
-	printf("\nThursday\n");
-
-	for (num = 0; num != number; num++)
-	{
-		if (people[num].cabinet == zad_cab)
-		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.thu[0], people[num].week.thu[1]);
-		}
-	}
-
-	printf("\nFriday\n");
-
-	for (num = 0; num != number; num++)
-	{
-		if (people[num].cabinet == zad_cab)
-		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.fri[0], people[num].week.fri[1]);
-		}
-	}
-
-	printf("\nSaturday\n");
-
-	for (num = 0; num != number; num++)
-	{
-		if (people[num].cabinet == zad_cab)
-		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.sat[0], people[num].week.sat[1]);
-		}
-	}
-
-	printf("\nSunday\n");
-
-	for (num = 0; num != number; num++)
-	{
-		if (people[num].cabinet == zad_cab)
-		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.sun[0], people[num].week.sun[1]);
-		}
-	}
-
-	if (found == NO)
-	{
-		system("cls");
 		printf("cabinet %d does not exist\n", zad_cab);
 	}
 
@@ -335,11 +270,13 @@ void times(void) // Подбор врача по специальности и �
 	printf("Enter time > ");
 	scanf("%f", &zad_time);
 
-	// добавить дни недели
+	int day;
+	printf("Enter day of the week > ");
+	scanf("%d", &day);
 
 	found = NO;
 	int i;
-	int flag;
+	int flag = NO;
 
 	printf("surname              name                 specialty            cabinet  from    to\n");
 
@@ -358,9 +295,9 @@ void times(void) // Подбор врача по специальности и �
 			i++;
 		} while (people[num].specialty[i] != '\0' && zad_specialty[i] != '\0');
 
-		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0' && people[num].week.sun[0] < zad_time && people[num].week.sun[1] > zad_time)
+		if (flag == NO && people[num].specialty[i] == '\0' && zad_specialty[i] == '\0' && people[num].timing[day - 1][0] < zad_time && people[num].timing[day - 1][1] > zad_time)
 		{
-			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.sun[0], people[num].week.sun[1]); // добавить не только вс
+			printf("%-20s %-20s %-20s %-3d     %6.2f  %6.2f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].timing[day - 1][0], people[num].timing[day - 1][1]);
 			found = YES;
 		}
 	}
@@ -370,6 +307,7 @@ void times(void) // Подбор врача по специальности и �
 		system("cls");
 		printf("At %4.2f no %s works.\n", zad_time, zad_specialty);
 	}
+
 	system("pause");
 }
 
@@ -385,7 +323,7 @@ void read(void)
 
 	while (!feof(fpin)) // цикл до конца файла
 	{
-		int i, j;
+		int i, j, k;
 		char line[N];
 		char* mas = line;
 		char* ptr = fgets(line, N, fpin); // чтение строки
@@ -414,131 +352,26 @@ void read(void)
 
 		people[number].cabinet = atoi(mas);
 
-		for (i++; line[i] != ' '; i++)
+		for (k = 0; k < 7; k++)
 		{
+			for (i++; line[i] != ' '; i++)
+			{
 
+			}
+
+			mas = &line[++i];
+
+			people[number].timing[k][0] = atof(mas);
+
+			for (i++; line[i] != ' '; i++)
+			{
+
+			}
+
+			mas = &line[++i];
+
+			people[number].timing[k][1] = atof(mas);
 		}
-
-		mas = &line[++i];
-
-		people[number].week.mon[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.mon[1] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.tue[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.tue[1] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.wed[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.wed[1] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.thu[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.thu[1] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.fri[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.fri[1] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.sat[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.sat[1] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.sun[0] = atof(mas);
-
-		for (i++; line[i] != ' '; i++)
-		{
-
-		}
-
-		mas = &line[++i];
-
-		people[number].week.sun[1] = atof(mas);
 
 		number++;
 	}
@@ -552,6 +385,8 @@ void read(void)
 void save(void)
 {
 	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "wt"); // открыть файл для записи
+	int i, j, k;
+
 
 	if (fpout == NULL)
 	{
@@ -561,7 +396,13 @@ void save(void)
 
 	for (num = 0; num < number; num++)
 	{
-		fprintf(fpout, "%s %s %s %d %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet, people[num].week.mon[0], people[num].week.mon[1], people[num].week.tue[0], people[num].week.tue[1], people[num].week.wed[0], people[num].week.wed[1], people[num].week.thu[0], people[num].week.thu[1], people[num].week.fri[0], people[num].week.fri[1], people[num].week.sat[0], people[num].week.sat[1], people[num].week.sun[0], people[num].week.sun[1]);
+		fprintf(fpout, "%s %s %s %d", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet);
+
+		for (k = 0; k < 7; k++)
+		{
+			fprintf(fpout, " %.2f %.2f", people[num].timing[k][0], people[num].timing[k][1]);
+		}
+		fprintf(fpout, "\n");
 	}
 
 	fclose(fpout); // закрыть выходной файл

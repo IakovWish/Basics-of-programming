@@ -17,7 +17,7 @@ typedef struct
 
 doctor people[N];
 
-char day_week[N];
+//char day_week[N];
 int number = 0;
 int num;
 int found;

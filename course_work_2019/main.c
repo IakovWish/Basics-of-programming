@@ -17,13 +17,14 @@ typedef struct
 
 doctor people[N];
 
+char day_week[N];
 int number = 0;
 int num;
 int found;
 
 int menu(void); // Меню. \\ готово
-void rep(void); // Пополнение базы. // добавить добавление времени работы\\??
-void edit(void); // Редактирование базы. // добавить изменение времени работы\\??
+void rep(void); // Пополнение базы. \\ готово
+void edit(void); // Редактирование базы. \\ готово
 void del(void); // Удаление записей. // проверить\\??
 void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке. \\ готово
 void cab(void); // Вывод загрузки выбранного кабинета по дням недели. \\ добавить вывод дня недели\\??
@@ -32,6 +33,7 @@ void times(void); // Подбор врача по специальности и 
 void read(void); // Чтение из файла. // готово
 void save(void); // Запись в файл. // готово
 void find_number(void); // Поиск номера по фамилии. // готово
+//void day_finder(void);
 
 int main(void)
 {
@@ -93,6 +95,8 @@ int menu()
 
 void rep(void)
 {
+	int k;
+
 	printf("Enter last name > ");
 	scanf("%s", people[number].surname);
 
@@ -105,13 +109,27 @@ void rep(void)
 	printf("Enter cabinet number > ");
 	scanf("%d", &people[number].cabinet);
 
+	for (k = 0; k < 7; k++)
+	{
+		//day_finder();
+
+		printf("Enter the start time on the %d day > ", k + 1);
+		scanf("%f", &people[number].timing[k][0]);
+
+		printf("Enter the end time on the %d day> ", k + 1);
+		scanf("%f", &people[number].timing[k][1]);
+	}
+
 	number++;
+
 	save();
 	system("cls");
 }
 
 void edit(void)
 {
+	int k;
+
 	find_number();
 	if (found == NO)
 	{
@@ -127,6 +145,15 @@ void edit(void)
 
 		printf("Enter new specialty > ");
 		scanf("%s", people[num].specialty);
+
+		for (k = 0; k < 7; k++)
+		{
+			printf("Enter the new start time on the %d day > ", k + 1);
+			scanf("%f", &people[num].timing[k][0]);
+
+			printf("Enter the new end time on the %d day > ", k + 1);
+			scanf("%f", &people[num].timing[k][1]);
+		}
 	}
 	save();
 	alph();
@@ -200,9 +227,9 @@ void cab(void) // Вывод загрузки выбранного кабине�
 
 	if (found == YES)
 	{
-		printf("surname              name                 specialty            cabinet  from    to\n");
 		printf("%d\n", day);
-
+		printf("surname              name                 specialty            cabinet  from    to\n");
+		
 		for (num = 0; num < number; num++)
 		{
 			if (people[num].cabinet == zad_cab)
@@ -439,3 +466,36 @@ void find_number(void)
 		}
 	}
 }
+
+//void day_finder(void)
+//{
+//	int a;
+//	a++;
+//	switch (a)
+//	{
+//	case 1:
+//		day_week[N] = "Monday";
+//		break;
+//	case 2:
+//		day_week[N] = "Tuesday";
+//		break;
+//	case 3:
+//		day_week[N] = "Wednesday";
+//		break;
+//	case 4:
+//		day_week[N] = "Thursday";
+//		break;
+//	case 5:
+//		day_week[N] = "Friday";
+//		break;
+//	case 6:
+//		day_week[N] = "Saturday";
+//		break;
+//	case 7:
+//		day_week[N] = "Sunday";
+//		break;
+//	default:
+//		printf("ERROR. THERE IS NO SUCH DAY\n");
+//		system("pause");
+//	};
+//}

@@ -234,20 +234,45 @@ void read(void)
 		mas = &line[++i];
 		team[number].game = atoi(mas);
 
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
 		mas = &line[++i];
 		team[number].victory = atoi(mas);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
 
 		mas = &line[++i];
 		team[number].tie = atoi(mas);
 
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+
 		mas = &line[++i];
 		team[number].defeat = atoi(mas);
 
-		mas = &line[++i];
-		team[number].points = atoi(mas);
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
 
 		mas = &line[++i];
 		team[number].goal = atoi(mas);
+
+		for (i++; line[i] != ' '; i++)
+		{
+
+		}
+		
+		mas = &line[++i];
+		team[number].points = atoi(mas);
 
 		number++;
 	}

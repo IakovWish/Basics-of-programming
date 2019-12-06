@@ -27,11 +27,13 @@ void new_team(void);
 void game(void);
 void full(void);
 void turnir(void);
+void read(void);
+void save(void);
 
 int main()
 {
 	int a;
-	while ((a = menu()) != 5)
+	while ((a = menu()) != 6)
 	{
 		switch (a)
 		{
@@ -47,6 +49,9 @@ int main()
 		case 4:
 			turnir();
 			break;
+		case 5:
+			read();
+			break;
 		};
 	}
 	return 0;
@@ -61,7 +66,8 @@ int menu(void)
 	printf("2-\n"); // игра
 	printf("3-\n"); // полная таблица
 	printf("4-\n"); // турнирная таблица
-	printf("5-Exit the program\n");
+	printf("5-\n");
+	printf("6-Exit the program\n");
 	scanf("%d", &m);
 	system("cls");
 	return m;
@@ -85,6 +91,8 @@ void new_team(void)
 	number++;
 
 	system("pause");
+
+	save();
 }
 
 void game(void)
@@ -119,7 +127,7 @@ void game(void)
 		if (team[player2].play == 0);
 		{
 			flag = YES;
-			team[player2].play += 1;
+			team[player2].play = 1;
 		}
 	}
 
@@ -159,6 +167,8 @@ void game(void)
 		team[player2].tie += 1;
 		team[player2].points += 1;
 	}
+
+	save();
 }
 
 void full(void)
@@ -172,19 +182,17 @@ void full(void)
 
 void turnir(void)
 {
-	int j;
 	liga Temp;
 
-	// Для всех элементов
-	for (int i = 0; i < number - 1; i++)
+	for (num = 0; num < number - 1; num++)
 	{
-		for (int j = (number - 1); j > i; j--) // для всех элементов после i-ого
+		for (int j = (number - 1); j > num; j--)
 		{
-			if (team[j - 1].points < team[j].points) // если текущий элемент меньше предыдущего
+			if (team[j - 1].points < team[j].points)
 			{
-				int temp = team[j - 1].points; // меняем их местами
-				team[j - 1].points = team[j].points;
-				team[j].points = temp;
+				Temp = team[j - 1];
+				team[j - 1] = team[j];
+				team[j] = Temp;
 			}
 		}
 	}
@@ -194,4 +202,78 @@ void turnir(void)
 		printf("%s %d\n", team[num].title, team[num].points);
 	}
 	system("pause");
+}
+
+void read(void)
+{
+	FILE* fpin = fopen("C:\\Users\\User\\source\\repos\\gerf.txt", "rt"); // открыть входной файл для чтения
+
+	if (fpin == NULL)
+	{
+		printf("error opening file input\n"); // информация об ошибке
+		return; // ошибка при открытии файла
+	}
+
+	while (!feof(fpin)) // цикл до конца файла
+	{
+		int i, j, k;
+		char line[N];
+		char* mas = line;
+		char* ptr = fgets(line, N, fpin); // чтение строки
+
+		if (ptr == NULL)
+		{
+			break; // файл исчерпан
+		}
+
+		for (i = 0, j = 0; line[i] != ' '; i++, j++)
+		{
+			team[number].title[j] = line[i];
+		}
+
+		mas = &line[++i];
+		team[number].game = atoi(mas);
+
+		mas = &line[++i];
+		team[number].victory = atoi(mas);
+
+		mas = &line[++i];
+		team[number].tie = atoi(mas);
+
+		mas = &line[++i];
+		team[number].defeat = atoi(mas);
+
+		mas = &line[++i];
+		team[number].points = atoi(mas);
+
+		mas = &line[++i];
+		team[number].goal = atoi(mas);
+
+		mas = &line[++i];
+		team[number].play = atoi(mas);
+
+		number++;
+	}
+
+	save();
+
+	fclose(fpin); // закрыть входной файл
+}
+
+void save(void)
+{
+	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\gerf.txt", "wt"); // открыть файл для записи
+
+	if (fpout == NULL)
+	{
+		printf("error opening file output\n"); // информация об ошибке
+		return; // ошибка при открытии файла
+	}
+
+	for (num = 0; num < number; num++)
+	{
+		fprintf(fpout, "%s %d %d %d %d %d %d\n", team[num].title, team[num].game, team[num].victory, team[num].defeat, team[num].tie, team[num].goal, team[num].points);
+	}
+
+	fclose(fpout); // закрыть выходной файл
 }

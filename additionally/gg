@@ -249,15 +249,13 @@ void read(void)
 		mas = &line[++i];
 		team[number].goal = atoi(mas);
 
-		mas = &line[++i];
-		team[number].play = atoi(mas);
-
 		number++;
 	}
 
-	save();
-
 	fclose(fpin); // закрыть входной файл
+
+	save();
+	full();
 }
 
 void save(void)

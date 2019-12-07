@@ -194,6 +194,8 @@ void game(void)
 	{
 		printf("error");
 	}
+
+	system("pause");
 }
 
 void full(void)

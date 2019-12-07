@@ -130,9 +130,9 @@ void game(void)
 
 			flag = YES;
 
-			for (i = 0; i <= team[player1].play && flag == YES; i++)
+			for (i = 0; i != team[player1].play && flag == YES; i++)
 			{
-				for (j = 0; j <= team[player2].play && flag == YES; j++)
+				for (j = 0; j != team[player2].play && flag == YES; j++)
 				{
 					if (team[player1].mas[i] == team[player2].mas[j])
 					{
@@ -144,11 +144,11 @@ void game(void)
 
 		if (flag == YES)
 		{
-			team[player1].mas[i] = player2;
-			team[player2].mas[i] = player1;
-
 			team[player1].play += 1;
 			team[player2].play += 1;
+
+			team[player1].mas[team[player1].play] = player2;
+			team[player2].mas[team[player2].play] = player1;
 		}
 
 		printf("%s VS %s\n", team[player1].title, team[player2].title);

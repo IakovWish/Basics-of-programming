@@ -30,6 +30,7 @@ void full(void);
 void turnir(void);
 void read(void);
 void save(void);
+int factorial(int);
 
 int main()
 {
@@ -86,7 +87,7 @@ void new_team(void)
 	team[number].points = 0;
 	team[number].play = 0;
 	team[number].goal = 0;
-	team[number].mas[0] = number;
+	//team[number].mas[0] = number;
 
 	number++;
 
@@ -99,6 +100,7 @@ void game(void)
 {
 	int flag = NO;
 	int found = NO;
+	int fl = NO;
 
 	int player1;
 	int player2;
@@ -106,13 +108,15 @@ void game(void)
 	int gol1 = 0;
 	int gol2 = 0;
 
-	int i, j;
+	int i, j, r;
 
 	srand(time(NULL));
 
+	int pot = factorial(number) / (factorial(number - 2) * 2);
+
 	for (num = 0; num < number; num++)
 	{
-		if (team[num].play != number - 1)
+		if (team[num].play != pot)
 		{
 			found = YES;
 		}
@@ -122,31 +126,49 @@ void game(void)
 	{
 		while (flag != YES)
 		{
-			player1 = 0 + rand() % number;
-			player2 = 0 + rand() % number;
-
 			flag = YES;
 
-			for (i = 0; i != team[player1].play+1 && flag == YES; i++)
+			while (fl != YES)
 			{
-				for (j = 0; j != team[player2].play+1 && flag == YES; j++)
+				player1 = 0 + rand() % number;
+				player2 = 0 + rand() % number;
+
+				if (player1 != player2)
 				{
-					if (team[player1].mas[i] == team[player2].mas[j])
-					{
-						flag = NO;
-					}
+					fl = YES;
+				}
+			}
+
+			if (team[player1].play == 0)
+			{
+				for (r = 0; r < pot; r++);
+				{
+					team[player1].mas[r] = -1;
+				}
+			}
+
+			if (team[player2].play == 0)
+			{
+				for (r = 0; r < pot; r++);
+				{
+					team[player2].mas[r] = -1;
+				}
+			}
+
+			for (int i = 0; i < pot; i++)
+			{
+				if (team[player1].mas[i] == player2)
+				{
+					flag = NO;
 				}
 			}
 		}
+		
+		team[player1].mas[team[player1].play] = player2;
+		team[player2].mas[team[player2].play] = player1;
 
-		if (flag == YES)
-		{
-			team[player1].play += 1;
-			team[player2].play += 1;
-
-			team[player1].mas[team[player1].play] = player2;
-			team[player2].mas[team[player2].play] = player1;
-		}
+		team[player1].play += 1;
+		team[player2].play += 1;
 
 		printf("%s VS %s\n", team[player1].title, team[player2].title);
 
@@ -323,4 +345,13 @@ void save(void)
 	}
 
 	fclose(fpout); // закрыть выходной файл
+}
+
+int factorial(int n)
+{
+	if (n == 0 || n == 1)
+	{
+		return 1;
+	}
+	return n * factorial(n - 1);
 }

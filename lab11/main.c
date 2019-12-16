@@ -36,14 +36,14 @@ int main(void)
 		return;
 	}
 
-	char line[1000];
+	char line[100];
 	char* ptr = NULL;
 	char mas[8];
 	char* pptr;
-	
+
 	while (!feof(f))
 	{
-		fgets(line, 1000, f);
+		fgets(line, 100, f);
 		ptr = line;
 
 		while (*ptr != '\n' && *ptr != '\0')
@@ -73,7 +73,7 @@ int main(void)
 							break;
 						}
 						i++;
-					} while (mas[i] != ' ' && directives[j][i] != '\0' );
+					} while (mas[i] != ' ' && directives[j][i] != '\0');
 
 					if (flag == NO && (mas[i] == ' ' || mas[i] == '\0' || mas[i] == '\n') && directives[j][i] == '\0')
 					{

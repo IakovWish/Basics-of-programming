@@ -1,124 +1,41 @@
-#pragma warning(disable : 4996)
+program TRI;
+{$ASMMODE INTEL}
+uses crt;
+const N = 10;
+var A: array[1..N] of longint;
+i: 1..N;
+Cnt, Max: longint;
+begin
+     Randomize;
+     writeln('');
+     write('MASSIVE:');
+     for i := 1 to N do
+     begin
+          A[i] := random(10);
+          Write(A[i]: 6);
+     end;
 
-#include <stdio.h>
-#include <string.h>
-#include <windows.h>
-
-#define YES 1
-#define NO 0
-
-int main(void)
-{
-	char def[7] = "define";
-
-	HANDLE hStdout;
-	WORD foregroundColor0;
-	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	foregroundColor0 = FOREGROUND_BLUE;
-
-	FILE* f = fopen("C:\\Users\\User\\source\\repos\\ttest11.txt", "r");
-	if (f == NULL)
-	{
-		return;
-	}
-
-	char line[100];
-	char* ptr = NULL;
-	char* pptr;
-	char* p_ptr;
-	char mas[100][100];
-	int j = 0;
-	int k = 0;
-
-	while (!feof(f))
-	{
-		fgets(line, 100, f);
-		ptr = line;
-
-		while (*ptr != '\n' && *ptr != '\0')
-		{
-			int i = 0;
-			if (*ptr == '#')
-			{
-				pptr = ptr + 1;
-				int flag = NO;
-
-				do
-				{
-					if (*pptr++ != def[i])
-					{
-						flag = YES;
-						break;
-					}
-					i++;
-				} while (*pptr != ' ' && def[i] != '\0');
-
-				if (flag == NO && (*pptr == ' ' || *pptr == '\0' || *pptr == '\n') && def[i] == '\0')
-				{
-					while (*ptr != ' ' && *ptr != '\n' && *ptr++ != '\0')
-					{}
-
-					pptr = ptr;
-					j = 0;
-					while (*++pptr != ' ' && *pptr != '\n' && *pptr != '\0')
-					{
-						mas[k][j++] = *pptr;
-					}
-					mas[k][j++] = '\0';
-					k++;
-				}
-
-				flag = NO;
-			}
-
-			while (*++ptr != ' ' && *ptr != '\n' && *ptr != '\0')
-			{}
-		}
-	}
-	fclose(f); // закрыть входной файл
-
-	f = fopen("C:\\Users\\User\\source\\repos\\ttest11.txt", "r");
-	while (!feof(f))
-	{
-		fgets(line, 100, f);
-		ptr = line;
-		char massiv[100];
-		int n;
-
-		while (*ptr != '\n' && *ptr != '\0')
-		{
-			pptr = ptr;
-			n = 0;
-			while (*pptr != ' ' && *pptr != '\n' && *pptr != '\0')
-			{
-				massiv[n++] = *pptr++;
-			}
-			massiv[n++] = '\0';
-
-			for (int p = 0; p < k; p++)
-			{
-				if (strcmp(massiv, mas[p]) == 0)
-				{
-					SetConsoleTextAttribute(hStdout, foregroundColor0);
-				}
-			}
-
-			while (*ptr != ' ' && *ptr != '\n' && *ptr != '\0')
-			{
-				printf("%c", *ptr++);
-			}
-
-			SetConsoleTextAttribute(hStdout, 7);
-
-			if (*ptr != '\0')
-			{
-				printf("%c", *ptr++);
-			}
-		}
-		if (*ptr == '\n')
-		{
-			printf("%c", *ptr++);
-		}
-	}
-	return 0;
-}
+     asm
+        LEA ESI, A
+        MOV EAX, [ESI]
+        MOV EDX, 1
+        MOV ECX, N
+        DEC ECX
+        ADD ESI, 4
+    @1: CMP EAX, 4
+        JE @2
+        jmp @4
+    @2: ADD ESI, 4
+        MOV EAX, [ESI]
+        CMP EAX, 5
+        JE @3
+    @3: ADD ESI, 4
+        MOV EAX, [ESI]
+        CMP EAX, 6
+    @4: LOOP @1
+        MOV Cnt, EDX
+     end;
+     writeln('');
+     Writeln('The maximum element of the array is ',Max,' and occurs ',Cnt,' times');
+     writeln('');
+end.

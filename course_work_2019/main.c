@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 200
+#define N 100
 #define YES 1
 #define NO 0
 
@@ -16,7 +16,6 @@ typedef struct
 } doctor;
 
 doctor* people;
-//doctor people[N];
 
 //char day_week[N];
 int number = 0;
@@ -24,19 +23,19 @@ int num;
 int found;
 int cntt = 0;
 
-int menu(void); // Меню. \\ готово
-void rep(void); // Пополнение базы. \\ готово
-void edit(void); // Редактирование базы. \\ готово
-void del(void); // Удаление записей. // проверить\\??
-void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке. \\ готово
-void cab(void); // Вывод загрузки выбранного кабинета по дням недели. \\ добавить вывод дня недели\\??
-void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке. \\ готово
-void times(void); // Подбор врача по специальности и времени приёма. \\ готово
-void read(void); // Чтение из файла. // готово
-void save(void); // Запись в файл. // готово
-void find_number(void); // Поиск номера по фамилии. // готово
-//void day_finder(void);
+int menu(void); // Меню.
+void rep(void); // Пополнение базы.
+void edit(void); // Редактирование базы.
+void del(void); // Удаление записей.
+void alph(void); // Вывод содержимого базы по фамилиям в алфавитном порядке.
+void cab(void); // Вывод загрузки выбранного кабинета по дням недели.
+void spec(void); // Вывод списка врачей по указанной специальности в алфавитном порядке.
+void times(void); // Подбор врача по специальности и времени приёма.
+void read(void); // Чтение из файла.
+void save(void); // Запись в файл.
+void find_number(void); // Поиск номера по фамилии.
 void count(void);
+//void day_finder(void);
 
 int main(void)
 {
@@ -98,19 +97,28 @@ int menu()
 
 void rep(void)
 {
+	count();
+	people = (doctor*)realloc(people, (++cntt) * sizeof(doctor));
+
+	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "a"); // открыть файл для записи
+
 	int k;
 
 	printf("Enter last name > ");
-	scanf("%s", people[number].surname);
+	scanf("%s", &people[number].surname);
+	fprintf(fpout, "%s ", people[number].surname);
 
 	printf("Enter name > ");
-	scanf("%s", people[number].name);
+	scanf("%s", &people[number].name);
+	fprintf(fpout, "%s ", people[number].name);
 
 	printf("Enter specialty > ");
-	scanf("%s", people[number].specialty);
+	scanf("%s", &people[number].specialty);
+	fprintf(fpout, "%s ", people[number].specialty);
 
 	printf("Enter cabinet number > ");
 	scanf("%d", &people[number].cabinet);
+	fprintf(fpout, "%d", people[number].cabinet);
 
 	for (k = 0; k < 7; k++)
 	{
@@ -118,14 +126,16 @@ void rep(void)
 
 		printf("Enter the start time on the %d day > ", k + 1);
 		scanf("%f", &people[number].timing[k][0]);
+		fprintf(fpout, " %.2f ", people[number].timing[k][0]);
 
 		printf("Enter the end time on the %d day> ", k + 1);
 		scanf("%f", &people[number].timing[k][1]);
+		fprintf(fpout, "%.2f", people[number].timing[k][1]);
 	}
+	fprintf(fpout, "\n");
 
+	fclose(fpout); // закрыть выходной файл
 	number++;
-
-	save();
 	system("cls");
 }
 
@@ -148,6 +158,9 @@ void edit(void)
 
 		printf("Enter new specialty > ");
 		scanf("%s", people[num].specialty);
+
+		printf("Enter new cabinet > ");
+		scanf("%d", &people[num].cabinet);
 
 		for (k = 0; k < 7; k++)
 		{
@@ -177,6 +190,9 @@ void del(void)
 		}
 		printf("a doctor with that name was delited\n");
 	}
+
+	count();
+	people = (doctor*)realloc(people, (--cntt) * sizeof(doctor));
 	save();
 	alph();
 }
@@ -204,6 +220,7 @@ void alph(void)
 	{
 		printf("%-3d %-20s %-20s %-20s %-3d\n", num, people[num].surname, people[num].name, people[num].specialty, people[num].cabinet);
 	}
+
 	system("pause");
 }
 
@@ -369,16 +386,19 @@ void read(void)
 		{
 			people[number].surname[j] = line[i];
 		}
+		people[number].surname[j] = '\0';
 
 		for (i++, j = 0; line[i] != ' '; i++, j++)
 		{
 			people[number].name[j] = line[i];
 		}
+		people[number].name[j] = '\0';
 
 		for (i++, j = 0; line[i] != ' '; i++, j++)
 		{
 			people[number].specialty[j] = line[i];
 		}
+		people[number].specialty[j] = '\0';
 
 		mas = &line[++i];
 

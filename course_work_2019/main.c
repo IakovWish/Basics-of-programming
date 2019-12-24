@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 100
+#define N 200
 #define YES 1
 #define NO 0
 
@@ -17,11 +17,12 @@ typedef struct
 
 doctor* people;
 
-//char day_week[N];
+char* day_week;
 int number = 0;
 int num;
 int found;
 int cntt = 0;
+int y;
 
 int menu(void); // Меню.
 void rep(void); // Пополнение базы.
@@ -35,7 +36,7 @@ void read(void); // Чтение из файла.
 void save(void); // Запись в файл.
 void find_number(void); // Поиск номера по фамилии.
 void count(void);
-//void day_finder(void);
+void day_finder(void);
 
 int main(void)
 {
@@ -102,8 +103,6 @@ void rep(void)
 
 	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "a"); // открыть файл для записи
 
-	int k;
-
 	printf("Enter last name > ");
 	scanf("%s", &people[number].surname);
 	fprintf(fpout, "%s ", people[number].surname);
@@ -120,17 +119,17 @@ void rep(void)
 	scanf("%d", &people[number].cabinet);
 	fprintf(fpout, "%d", people[number].cabinet);
 
-	for (k = 0; k < 7; k++)
+	for (y = 0; y < 7; y++)
 	{
-		//day_finder();
+		day_finder();
 
-		printf("Enter the start time on the %d day > ", k + 1);
-		scanf("%f", &people[number].timing[k][0]);
-		fprintf(fpout, " %.2f ", people[number].timing[k][0]);
+		printf("Enter the start time on %s > ", day_week);
+		scanf("%f", &people[number].timing[y][0]);
+		fprintf(fpout, " %.2f ", people[number].timing[y][0]);
 
-		printf("Enter the end time on the %d day> ", k + 1);
-		scanf("%f", &people[number].timing[k][1]);
-		fprintf(fpout, "%.2f", people[number].timing[k][1]);
+		printf("Enter the end time on %s > ", day_week);
+		scanf("%f", &people[number].timing[y][1]);
+		fprintf(fpout, "%.2f", people[number].timing[y][1]);
 	}
 	fprintf(fpout, "\n");
 
@@ -141,8 +140,6 @@ void rep(void)
 
 void edit(void)
 {
-	int k;
-
 	find_number();
 	if (found == NO)
 	{
@@ -162,13 +159,13 @@ void edit(void)
 		printf("Enter new cabinet > ");
 		scanf("%d", &people[num].cabinet);
 
-		for (k = 0; k < 7; k++)
+		for (y = 0; y < 7; y++)
 		{
-			printf("Enter the new start time on the %d day > ", k + 1);
-			scanf("%f", &people[num].timing[k][0]);
+			printf("Enter the new start time on %s > ", day_week);
+			scanf("%f", &people[num].timing[y][0]);
 
-			printf("Enter the new end time on the %d day > ", k + 1);
-			scanf("%f", &people[num].timing[k][1]);
+			printf("Enter the new end time on %s > ", day_week);
+			scanf("%f", &people[num].timing[y][1]);
 		}
 	}
 	save();
@@ -488,38 +485,36 @@ void find_number(void)
 	}
 }
 
-//void day_finder(void)
-//{
-//	int a;
-//	a++;
-//	switch (a)
-//	{
-//	case 1:
-//		day_week[N] = "Monday";
-//		break;
-//	case 2:
-//		day_week[N] = "Tuesday";
-//		break;
-//	case 3:
-//		day_week[N] = "Wednesday";
-//		break;
-//	case 4:
-//		day_week[N] = "Thursday";
-//		break;
-//	case 5:
-//		day_week[N] = "Friday";
-//		break;
-//	case 6:
-//		day_week[N] = "Saturday";
-//		break;
-//	case 7:
-//		day_week[N] = "Sunday";
-//		break;
-//	default:
-//		printf("ERROR. THERE IS NO SUCH DAY\n");
-//		system("pause");
-//	};
-//}
+void day_finder(void)
+{
+	switch (y+1)
+	{
+	case 1:
+		day_week = "monday";
+		break;
+	case 2:
+		day_week = "tuesday";
+		break;
+	case 3:
+		day_week = "wednesday";
+		break;
+	case 4:
+		day_week = "thursday";
+		break;
+	case 5:
+		day_week = "friday";
+		break;
+	case 6:
+		day_week = "saturday";
+		break;
+	case 7:
+		day_week = "sunday";
+		break;
+	default:
+		printf("ERROR. THERE IS NO SUCH DAY\n");
+		system("pause");
+	};
+}
 
 void count(void)
 {

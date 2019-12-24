@@ -15,12 +15,14 @@ typedef struct
 	float timing[7][2];
 } doctor;
 
-doctor people[N];
+doctor* people;
+//doctor people[N];
 
 //char day_week[N];
 int number = 0;
 int num;
 int found;
+int cntt = 0;
 
 int menu(void); // Меню. \\ готово
 void rep(void); // Пополнение базы. \\ готово
@@ -34,6 +36,7 @@ void read(void); // Чтение из файла. // готово
 void save(void); // Запись в файл. // готово
 void find_number(void); // Поиск номера по фамилии. // готово
 //void day_finder(void);
+void count(void);
 
 int main(void)
 {
@@ -229,7 +232,7 @@ void cab(void) // Вывод загрузки выбранного кабине�
 	{
 		printf("%d\n", day);
 		printf("surname              name                 specialty            cabinet  from    to\n");
-		
+
 		for (num = 0; num < number; num++)
 		{
 			if (people[num].cabinet == zad_cab)
@@ -340,6 +343,8 @@ void times(void) // Подбор врача по специальности и �
 
 void read(void)
 {
+	count();
+	people = (doctor*)malloc(cntt * sizeof(doctor));
 	FILE* fpin = fopen("C:\\Users\\User\\source\\repos\\file.txt", "rt"); // открыть входной файл для чтения
 
 	if (fpin == NULL)
@@ -412,8 +417,6 @@ void read(void)
 void save(void)
 {
 	FILE* fpout = fopen("C:\\Users\\User\\source\\repos\\file.txt", "wt"); // открыть файл для записи
-	int i, j, k;
-
 
 	if (fpout == NULL)
 	{
@@ -425,7 +428,7 @@ void save(void)
 	{
 		fprintf(fpout, "%s %s %s %d", people[num].surname, people[num].name, people[num].specialty, people[num].cabinet);
 
-		for (k = 0; k < 7; k++)
+		for (int k = 0; k < 7; k++)
 		{
 			fprintf(fpout, " %.2f %.2f", people[num].timing[k][0], people[num].timing[k][1]);
 		}
@@ -438,16 +441,14 @@ void save(void)
 void find_number(void)
 {
 	found = NO;
-	int i;
-	int flag;
 	char find_surname[N];
 	printf("Enter last name > ");
 	scanf("%s", find_surname);
 
 	for (num = 0; num < number && found == NO; num++)
 	{
-		i = 0;
-		flag = NO;
+		int i = 0;
+		int flag = NO;
 
 		do
 		{
@@ -499,3 +500,37 @@ void find_number(void)
 //		system("pause");
 //	};
 //}
+
+void count(void)
+{
+	cntt = 0;
+	FILE* fpin = fopen("C:\\Users\\User\\source\\repos\\file.txt", "rt"); // открыть входной файл для чтения
+
+	if (fpin == NULL)
+	{
+		printf("error opening file input\n"); // информация об ошибке
+		return; // ошибка при открытии файла
+	}
+
+	while (!feof(fpin)) // цикл до конца файла
+	{
+		char line[N];
+		char* ptr = fgets(line, N, fpin); // чтение строки
+		int i = 0;
+
+		if (ptr == NULL)
+		{
+			break; // файл исчерпан
+		}
+
+		i = 0;
+
+		while (line[i] != '\n')
+		{
+			i++;
+		}
+		cntt++;
+	}
+
+	fclose(fpin); // закрыть входной файл
+}
